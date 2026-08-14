@@ -2,6 +2,9 @@
 
 Standalone shop trainer. Not part of MaintainSMIP.
 
+- **Live:** https://smi-mechanic-trainer.onrender.com
+- **GitHub:** https://github.com/hopalongis-del/SMI-Mechanic-Trainer
+
 The game gives a real fleet cart and a complaint. The trainee types every step. The app grades the work against a rubric.
 
 ## Run
