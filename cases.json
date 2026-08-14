@@ -126,7 +126,7 @@
     {
       "id": "starts-then-dies",
       "title": "Starts, then dies",
-      "hint": "It has just enough fuel to start. After that the line is starving.",
+      "hint": "It's starving after it starts. Look at the filter. The gas in these rental carts does not sit long enough to go bad.",
       "cart": {
         "example_id": "4PF-EZ",
         "category": "4PF",
@@ -137,11 +137,11 @@
         "engine": "Gas",
         "top": "Folding top",
         "color": "White",
-        "notes": "Sat a couple weeks after the last event."
+        "notes": "Rental 4PF. Gas turns over every event — it does not sit long enough to go stale."
       },
       "setting": "SMIP shop, Monday.",
       "ticket": "Starts on the first try, runs about ten seconds, then dies. Restarts every time. Same cycle if you keep doing it.",
-      "cause": "Stale gas and a clogged fuel filter. Fresh fuel and a new filter.",
+      "cause": "Clogged fuel filter. These carts drink fuel all week. The filter packed up, not the gas.",
       "still": "It still starts, runs about ten seconds, then dies.",
       "checks": [
         {
@@ -150,34 +150,16 @@
           "system": "fuel",
           "label": "Check the fuel filter",
           "aliases": ["fuel filter", "filter", "fuel line", "clogged"],
-          "finding": "Filter is dark and barely passing fuel.",
-          "after": "That's a big part of it. Gas may still be stale."
-        },
-        {
-          "id": "fuel-age",
-          "core": true,
-          "system": "fuel",
-          "label": "Check how old the gas is",
-          "aliases": ["stale", "old gas", "ethanol", "tank", "smell"],
-          "finding": "Gas smells like varnish. It's been sitting.",
-          "after": "That's only part of the issue. The filter can still be clogged."
-        },
-        {
-          "id": "fresh-only",
-          "system": "fuel",
-          "label": "Put fresh gas in",
-          "aliases": ["fresh gas", "drain the tank"],
-          "finding": "Fresh gas in it.",
-          "after": "It still dies after about ten seconds. Something in the line is still starving it."
+          "finding": "Filter is packed and barely passing fuel."
         },
         {
           "id": "fix-fuel",
           "core": true,
           "fix": true,
           "system": "fuel",
-          "label": "New filter and fresh gas",
-          "aliases": ["new filter", "replace the filter"],
-          "finding": "New filter, fresh gas. It holds a long idle and a test loop."
+          "label": "Replace the fuel filter",
+          "aliases": ["new filter", "replace the filter", "change the filter"],
+          "finding": "New filter on. It holds a long idle and a test loop."
         }
       ],
       "forbidden": [
