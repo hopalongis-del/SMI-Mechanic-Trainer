@@ -1,0 +1,651 @@
+{
+  "version": 1,
+  "product": "SMI Mechanic Trainer",
+  "cases": [
+    {
+      "id": "tow-run-carryall",
+      "title": "Dead after the trailer",
+      "cart": {
+        "example_id": "2000",
+        "category": "UT",
+        "manufacturer": "Club Car",
+        "model": "Carryall 1",
+        "year": 1998,
+        "voltage": "36V series",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Older Club Car still on the event pool. Just came off an enclosed Trailer Transit load."
+      },
+      "setting": "Richmond compound. Morning after unload.",
+      "ticket": "Won't move. Key on. Nothing. No click, no solenoid, no dash life.",
+      "cause": "Tow/run (or run/tow) switch was left in TOW after the trailer ride. Cart is electrically dead on purpose.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "safety-chock",
+          "category": "safety",
+          "label": "Chock it or confirm it can't roll",
+          "aliases": ["chock", "block the wheels", "wheel stop", "can't roll"],
+          "points": 8
+        },
+        {
+          "id": "tow-run",
+          "category": "diagnosis",
+          "label": "Check the tow/run switch",
+          "aliases": ["tow/run", "tow run", "run/tow", "run tow", "tow switch", "run switch", "storage switch"],
+          "points": 35
+        },
+        {
+          "id": "key-fnr",
+          "category": "diagnosis",
+          "label": "Confirm key on and F/R in a drive position",
+          "aliases": ["key on", "forward reverse", "f/r", "fnr", "direction switch", "in forward"],
+          "points": 12
+        },
+        {
+          "id": "pack-voltage",
+          "category": "diagnosis",
+          "label": "Meter the pack before throwing parts",
+          "aliases": ["meter the pack", "pack voltage", "battery voltage", "voltmeter", "multimeter", "36 volt", "36v"],
+          "points": 20
+        },
+        {
+          "id": "fix-tow",
+          "category": "fix",
+          "label": "Flip tow/run back to RUN and retest",
+          "aliases": ["put it in run", "switch to run", "flip to run", "set to run", "back to run"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "throw-controller",
+          "label": "Replacing the controller first",
+          "aliases": ["replace the controller", "new controller", "swap the controller", "order a controller"],
+          "penalty": 25
+        },
+        {
+          "id": "throw-solenoid-first",
+          "label": "Replacing the solenoid with no voltage check",
+          "aliases": ["replace the solenoid", "new solenoid", "swap the solenoid"],
+          "penalty": 15
+        }
+      ]
+    },
+    {
+      "id": "click-no-go-ds",
+      "title": "One click, then nothing",
+      "cart": {
+        "example_id": "4P-CC",
+        "category": "4P",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 2004,
+        "voltage": "36V series",
+        "top": "Flat top",
+        "color": "White",
+        "notes": "Common 4-passenger Club Car still in the rental mix."
+      },
+      "setting": "Charlotte shop. Customer cart from last weekend.",
+      "ticket": "Key on, drop it in forward, you get one solid click. Then nothing. Wheels don't turn.",
+      "cause": "Solenoid is clicking but the contacts are burned. Pack is good. Cart needs a solenoid, not a controller.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "safety-key",
+          "category": "safety",
+          "label": "Key off / tow before pulling seat or cables",
+          "aliases": ["key off", "key out", "tow/run", "disconnect", "pull the negative"],
+          "points": 8
+        },
+        {
+          "id": "hear-click",
+          "category": "diagnosis",
+          "label": "Confirm the solenoid click",
+          "aliases": ["solenoid click", "one click", "hear the click", "clicks once"],
+          "points": 12
+        },
+        {
+          "id": "pack-rest",
+          "category": "diagnosis",
+          "label": "Check pack voltage at rest",
+          "aliases": ["pack voltage", "battery voltage", "meter the pack", "36 volt", "voltmeter"],
+          "points": 15
+        },
+        {
+          "id": "pack-load",
+          "category": "diagnosis",
+          "label": "Load-test the pack or check voltage while requesting go",
+          "aliases": ["load test", "voltage under load", "drops under load", "while it's clicking", "during the click"],
+          "points": 20
+        },
+        {
+          "id": "solenoid-out",
+          "category": "diagnosis",
+          "label": "Check voltage in vs out of the solenoid",
+          "aliases": ["solenoid in and out", "both big posts", "large terminals", "solenoid contacts", "voltage out of the solenoid"],
+          "points": 20
+        },
+        {
+          "id": "fix-solenoid",
+          "category": "fix",
+          "label": "Replace the solenoid and retest",
+          "aliases": ["replace the solenoid", "new solenoid", "swap the solenoid", "solenoid is bad"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "controller-first",
+          "label": "Blaming the controller with a click and no solenoid test",
+          "aliases": ["replace the controller", "bad controller", "new controller"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "weak-battery-6p",
+      "title": "Dies on the way to the suites",
+      "cart": {
+        "example_id": "6P-EZ",
+        "category": "6P",
+        "manufacturer": "EZ-GO",
+        "model": "6-passenger stretch",
+        "year": 2018,
+        "voltage": "48V",
+        "top": "Flat top",
+        "color": "White",
+        "notes": "Heavy 6-pass. These get cooked on long suite runs."
+      },
+      "setting": "Infield. Hospitality wants it now.",
+      "ticket": "Runs around the compound fine. Halfway up to the suites it crawls, then cuts out. After it sits it comes back.",
+      "cause": "One weak battery in the 48V string. Resting voltage looks almost normal. Under load that cell collapses.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "repro",
+          "category": "diagnosis",
+          "label": "Try to reproduce under load, not just in the bay",
+          "aliases": ["test drive", "under load", "hill", "recreate", "drive it"],
+          "points": 12
+        },
+        {
+          "id": "pack-rest",
+          "category": "diagnosis",
+          "label": "Meter the full pack at rest",
+          "aliases": ["pack voltage", "48 volt", "48v", "meter the pack", "total voltage"],
+          "points": 12
+        },
+        {
+          "id": "each-battery",
+          "category": "diagnosis",
+          "label": "Meter each battery, not just the pack",
+          "aliases": ["each battery", "every battery", "individual batteries", "per battery", "battery by battery", "one battery"],
+          "points": 30
+        },
+        {
+          "id": "load-or-hydrometer",
+          "category": "diagnosis",
+          "label": "Load-test or watch voltage while it is working",
+          "aliases": ["load test", "under load", "while driving", "hydrometer", "specific gravity"],
+          "points": 16
+        },
+        {
+          "id": "fix-battery",
+          "category": "fix",
+          "label": "Replace the weak battery (or the pair if that's shop policy) and retest the pack",
+          "aliases": ["replace the weak battery", "bad battery", "replace that battery", "swap the low battery", "replace the battery"],
+          "points": 20
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "whole-pack-blind",
+          "label": "Replacing the whole pack with no individual readings",
+          "aliases": ["replace the whole pack", "new set of batteries", "replace all batteries"],
+          "penalty": 15
+        },
+        {
+          "id": "controller",
+          "label": "Calling it a controller because it cuts out",
+          "aliases": ["replace the controller", "bad controller"],
+          "penalty": 20
+        }
+      ]
+    },
+    {
+      "id": "charger-4pf",
+      "title": "Plugged in all night, still dead",
+      "cart": {
+        "example_id": "4PF-EZ",
+        "category": "4PF",
+        "manufacturer": "EZ-GO",
+        "model": "4-passenger flip seat",
+        "year": 2019,
+        "voltage": "48V",
+        "top": "Folding top",
+        "color": "White",
+        "notes": "Flip seat 4PF. Lived on the charger rail at the shop."
+      },
+      "setting": "SMIP shop, Monday morning.",
+      "ticket": "Sat on the charger all night. Still dead. Charger was humming at some point.",
+      "cause": "Pack has an open/dead battery so the onboard charger quit. The receptacle and AC feed were fine.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "confirm-dead",
+          "category": "diagnosis",
+          "label": "Meter the pack before blaming the charger",
+          "aliases": ["meter the pack", "pack voltage", "battery voltage", "how many volts"],
+          "points": 18
+        },
+        {
+          "id": "charger-ac",
+          "category": "diagnosis",
+          "label": "Confirm the charger actually has AC / a known good outlet",
+          "aliases": ["outlet", "extension cord", "ac voltage", "wall power", "charger plugged", "known good charger"],
+          "points": 12
+        },
+        {
+          "id": "receptacle",
+          "category": "diagnosis",
+          "label": "Check the charge receptacle and fuse",
+          "aliases": ["receptacle", "charge port", "charger plug", "10 amp", "10a fuse", "charger fuse"],
+          "points": 15
+        },
+        {
+          "id": "each-battery",
+          "category": "diagnosis",
+          "label": "Check each battery in the string",
+          "aliases": ["each battery", "every battery", "individual", "open battery", "one battery is"],
+          "points": 25
+        },
+        {
+          "id": "fix",
+          "category": "fix",
+          "label": "Replace the open/dead battery and verify it takes a charge",
+          "aliases": ["replace the battery", "bad battery", "open battery", "put it back on charge", "takes a charge"],
+          "points": 20
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-charger-only",
+          "label": "Ordering a new charger with no pack readings",
+          "aliases": ["replace the charger", "new charger", "charger is bad"],
+          "penalty": 20
+        }
+      ]
+    },
+    {
+      "id": "valor-no-forward",
+      "title": "Valor only goes backward",
+      "cart": {
+        "example_id": "NP-4PF",
+        "category": "4PF",
+        "manufacturer": "EZ-GO",
+        "model": "Valor",
+        "year": 2023,
+        "voltage": "48V lithium / EX1 as equipped",
+        "top": "Factory top",
+        "color": "White",
+        "notes": "NP / TV compound cart. Drive-on only. Never reverse a Valor onto a trailer."
+      },
+      "setting": "Iowa. Brian's crew. After a track move.",
+      "ticket": "Reverse works. Forward does nothing. They have been trying to back it onto the trailer.",
+      "cause": "Forward side of the FNR / direction circuit is out. Reverse path is fine. Also: Valor gets driven on, never backed on. That is ops, not the electrical fix.",
+      "pass_score": 68,
+      "checks": [
+        {
+          "id": "fnr",
+          "category": "diagnosis",
+          "label": "Check the FNR / direction selector",
+          "aliases": ["fnr", "f/r", "forward reverse", "direction switch", "gear switch", "selector"],
+          "points": 22
+        },
+        {
+          "id": "both-directions",
+          "category": "diagnosis",
+          "label": "Confirm reverse works and forward does not",
+          "aliases": ["reverse works", "no forward", "only reverse", "won't go forward"],
+          "points": 12
+        },
+        {
+          "id": "forward-solenoid",
+          "category": "diagnosis",
+          "label": "Check forward solenoid / forward output, not the whole controller first",
+          "aliases": ["forward solenoid", "direction solenoid", "forward circuit", "forward contactor"],
+          "points": 20
+        },
+        {
+          "id": "valor-drive-on",
+          "category": "ops",
+          "label": "Do not reverse a Valor onto a trailer (drive it on)",
+          "aliases": ["drive on", "driven on", "don't reverse", "do not reverse", "never reverse", "don't back it"],
+          "points": 18
+        },
+        {
+          "id": "fix",
+          "category": "fix",
+          "label": "Repair FNR / forward circuit and retest both directions",
+          "aliases": ["replace fnr", "replace the switch", "forward solenoid", "repair the forward", "new fnr"],
+          "points": 18
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "back-it-on",
+          "label": "Telling them to keep backing the Valor onto the trailer",
+          "aliases": ["back it on", "reverse it on", "reverse onto the trailer"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "rain-ada",
+      "title": "ADA cart died after the rain",
+      "cart": {
+        "example_id": "ADA-CC",
+        "category": "ADA",
+        "manufacturer": "Club Car",
+        "model": "Accessible / ambulance-style",
+        "year": 2016,
+        "voltage": "48V",
+        "top": "Bubble top",
+        "color": "White",
+        "notes": "Bubble top. Top deck only on a Sun Valley. Cannot live on an enclosed trailer."
+      },
+      "setting": "Overnight rain on the Richmond lot. Cart was parked outside.",
+      "ticket": "Worked yesterday. This morning key on, click, then dead. Seat and floor are wet.",
+      "cause": "Water in the solenoid / battery connections. Dry, clean, dielectric, then retest. Not a new controller.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "safety",
+          "category": "safety",
+          "label": "Key off before pulling the seat on a wet cart",
+          "aliases": ["key off", "key out", "disconnect", "tow/run"],
+          "points": 10
+        },
+        {
+          "id": "look-wet",
+          "category": "diagnosis",
+          "label": "Look for water on solenoid, cables, and connections",
+          "aliases": ["wet", "water", "moisture", "rained", "soaked", "corrosion"],
+          "points": 22
+        },
+        {
+          "id": "solenoid-pack",
+          "category": "diagnosis",
+          "label": "Check pack voltage and solenoid with it dried off",
+          "aliases": ["pack voltage", "solenoid", "meter", "dry it", "dry off", "clean the"],
+          "points": 20
+        },
+        {
+          "id": "fix-dry",
+          "category": "fix",
+          "label": "Dry and protect connections, then retest",
+          "aliases": ["dry", "dielectric", "clean the terminals", "wd-40", "protect the connections"],
+          "points": 20
+        },
+        {
+          "id": "ada-top-deck",
+          "category": "ops",
+          "label": "ADA / bubble top stays on the top deck of an open trailer",
+          "aliases": ["top deck", "bubble top", "can't go enclosed", "not in the enclosed"],
+          "points": 12
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "controller",
+          "label": "Replacing the controller because it got rained on",
+          "aliases": ["replace the controller", "new controller"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "bent-steer-transit",
+      "title": "Pulls left after offload",
+      "cart": {
+        "example_id": "4P-EZ",
+        "category": "4P",
+        "manufacturer": "EZ-GO",
+        "model": "4-passenger",
+        "year": 2017,
+        "voltage": "48V",
+        "top": "No top",
+        "color": "White",
+        "notes": "Came off a Sun Valley at Richmond. Strap marks on the cowl."
+      },
+      "setting": "Just offloaded. They drove it 40 feet and parked it.",
+      "ticket": "Steers like it wants the ditch. Pulls hard left. Motor sounds fine.",
+      "cause": "Bent tie rod / steering from the trailer strap or a hit during unload. This is a mechanical alignment problem.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "test-drive",
+          "category": "diagnosis",
+          "label": "Drive it and confirm the pull",
+          "aliases": ["test drive", "drive it", "pulls left", "won't track"],
+          "points": 10
+        },
+        {
+          "id": "visual-steer",
+          "category": "diagnosis",
+          "label": "Inspect tie rods, steering box/rack, A-arms, and rims",
+          "aliases": ["tie rod", "steering", "bent", "spindle", "a-arm", "rim", "alignment"],
+          "points": 30
+        },
+        {
+          "id": "not-electrical",
+          "category": "diagnosis",
+          "label": "Don't treat a pull as a controller problem",
+          "aliases": ["not electrical", "not the controller", "mechanical", "frame", "under the cart"],
+          "points": 15
+        },
+        {
+          "id": "fix-rod",
+          "category": "fix",
+          "label": "Replace/straighten the bent steering part and test again",
+          "aliases": ["replace the tie rod", "new tie rod", "straighten", "fix the steering", "alignment"],
+          "points": 25
+        },
+        {
+          "id": "damage-wo",
+          "category": "ops",
+          "label": "Write it up as transit/unload damage",
+          "aliases": ["work order", "damage", "transit", "offload", "strap"],
+          "points": 10
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "controller",
+          "label": "Replacing the controller for a steering pull",
+          "aliases": ["replace the controller", "bad controller", "motor is bad"],
+          "penalty": 30
+        }
+      ]
+    },
+    {
+      "id": "welded-solenoid",
+      "title": "It won't shut off",
+      "cart": {
+        "example_id": "UT-EZ",
+        "category": "UT",
+        "manufacturer": "EZ-GO",
+        "model": "Utility 800",
+        "year": 2015,
+        "voltage": "48V",
+        "top": "No top",
+        "color": "Tan",
+        "notes": "Shop utility. They use it to tug and jump other carts."
+      },
+      "setting": "Compound. End of the day.",
+      "ticket": "Key off and it still wants to go. Or it lurches when you drop it in gear. They've been hitting the tow switch to kill it.",
+      "cause": "Solenoid contacts welded closed. Key can't break the circuit. Replace the solenoid. Check why it was cooking (jumper cables on the big posts, sticking FNR).",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "safety",
+          "category": "safety",
+          "label": "Tow/run or disconnect the pack before you get under it",
+          "aliases": ["tow/run", "tow run", "disconnect", "pull the negative", "chock"],
+          "points": 15
+        },
+        {
+          "id": "key-off-still",
+          "category": "diagnosis",
+          "label": "Confirm it still has go with the key off",
+          "aliases": ["key off", "won't shut off", "still runs", "lurches", "keeps going"],
+          "points": 15
+        },
+        {
+          "id": "welded",
+          "category": "diagnosis",
+          "label": "Check for a welded solenoid (continuity / voltage on the big posts with key off)",
+          "aliases": ["welded", "stuck solenoid", "solenoid stuck", "contacts welded", "big posts"],
+          "points": 25
+        },
+        {
+          "id": "why",
+          "category": "diagnosis",
+          "label": "Ask why it welded (jumping, stuck pedal, FNR)",
+          "aliases": ["jumper", "jumping", "why it welded", "stuck pedal", "fnr"],
+          "points": 10
+        },
+        {
+          "id": "fix",
+          "category": "fix",
+          "label": "Replace the solenoid and retest key off",
+          "aliases": ["replace the solenoid", "new solenoid", "swap the solenoid"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "leave-tow",
+          "label": "Sending it back out with tow/run as the shutoff",
+          "aliases": ["just use the tow switch", "leave it in tow", "tell them to use tow"],
+          "penalty": 20
+        }
+      ]
+    },
+    {
+      "id": "loose-cable",
+      "title": "Works, then it's dead, then it works",
+      "cart": {
+        "example_id": "2003",
+        "category": "UT",
+        "manufacturer": "Club Car",
+        "model": "Carryall 1",
+        "year": 1998,
+        "voltage": "36V series",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Old Club Car. Been around the lot all week."
+      },
+      "setting": "Live event. Radio call from the suite road.",
+      "ticket": "It was fine. Then it died. They hit a bump and it came back. Now it's dead again.",
+      "cause": "Loose or green main battery cable. Vibration opens the circuit. Tighten, clean, replace the cable if the ring is shot.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "wiggle",
+          "category": "diagnosis",
+          "label": "Wiggle test the main cables while watching voltage / life",
+          "aliases": ["wiggle", "wiggle test", "move the cables", "pull on the cable", "loose cable"],
+          "points": 25
+        },
+        {
+          "id": "visual",
+          "category": "diagnosis",
+          "label": "Look for green corrosion, a stretched ring, or a loose nut",
+          "aliases": ["corrosion", "green", "loose nut", "loose terminal", "stretched ring", "battery cable"],
+          "points": 20
+        },
+        {
+          "id": "meter",
+          "category": "diagnosis",
+          "label": "Meter pack and voltage at the solenoid while someone wiggles the cable",
+          "aliases": ["meter", "voltage", "solenoid", "voltmeter"],
+          "points": 15
+        },
+        {
+          "id": "fix",
+          "category": "fix",
+          "label": "Clean, tighten, or replace the cable and retest over bumps",
+          "aliases": ["tighten", "clean the terminal", "replace the cable", "new cable", "wire brush"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "controller",
+          "label": "Intermittent bump-to-fix is not a controller",
+          "aliases": ["replace the controller", "bad controller"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "fnr-800",
+      "title": "No reverse on the 800",
+      "cart": {
+        "example_id": "UT-800",
+        "category": "UT",
+        "manufacturer": "EZ-GO",
+        "model": "Utility 800",
+        "year": 2014,
+        "voltage": "48V",
+        "top": "No top",
+        "color": "Tan",
+        "notes": "Work cart. They use reverse all day in the trailer alley."
+      },
+      "setting": "Charlotte shop alley, packing a Sun Valley.",
+      "ticket": "Forward is fine. No reverse. They need it to get off the bottom deck.",
+      "cause": "FNR reverse microswitch / reverse cam is shot. Forward circuit is fine. Replace the FNR assembly, don't shotgun the controller.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "confirm",
+          "category": "diagnosis",
+          "label": "Confirm forward works and reverse does not",
+          "aliases": ["forward works", "no reverse", "won't reverse", "only forward"],
+          "points": 12
+        },
+        {
+          "id": "fnr",
+          "category": "diagnosis",
+          "label": "Inspect and test the FNR switch",
+          "aliases": ["fnr", "f/r", "forward reverse switch", "direction switch", "microswitch", "reverse switch"],
+          "points": 30
+        },
+        {
+          "id": "linkage",
+          "category": "diagnosis",
+          "label": "Check the shifter linkage actually moves the switch into reverse",
+          "aliases": ["linkage", "shifter", "cable", "cam", "not going into reverse"],
+          "points": 15
+        },
+        {
+          "id": "fix",
+          "category": "fix",
+          "label": "Replace or adjust the FNR and test reverse under the trailer",
+          "aliases": ["replace the fnr", "replace the switch", "new fnr", "adjust the linkage", "reverse works"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "controller",
+          "label": "Controller swap for a one-direction problem",
+          "aliases": ["replace the controller", "new controller"],
+          "penalty": 25
+        }
+      ]
+    }
+  ]
+}

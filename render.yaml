@@ -1,0 +1,12 @@
+# New Render web service — not MaintainSMIP
+services:
+  - type: web
+    name: smi-mechanic-trainer
+    runtime: python
+    plan: starter
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"

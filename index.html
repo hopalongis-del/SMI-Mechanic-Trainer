@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SMI Mechanic Trainer</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="mast">
+        <div>
+          <h1>SMI Mechanic Trainer</h1>
+          <p class="sub">Cart + complaint. You write every step. We grade the work.</p>
+        </div>
+        <div class="sub" id="case-count"></div>
+      </header>
+
+      <section class="card" id="setup">
+        <label for="trainee">Your name</label>
+        <div class="row">
+          <input id="trainee" maxlength="80" placeholder="First name is fine" />
+          <select id="case-pick"></select>
+        </div>
+        <div class="row" style="margin-top: 12px">
+          <button id="start-btn" type="button">Pull a ticket</button>
+          <button id="random-btn" class="ghost" type="button">Random</button>
+        </div>
+      </section>
+
+      <section class="card hidden" id="job">
+        <p class="sub" id="job-setting"></p>
+        <h2 id="job-title"></h2>
+        <div class="meta" id="job-cart"></div>
+        <p class="ticket" id="job-ticket"></p>
+      </section>
+
+      <section class="card hidden" id="work">
+        <label for="step">What did you do? One step at a time.</label>
+        <div class="row">
+          <textarea id="step" placeholder="Example: chocked it, key on, checked tow/run..."></textarea>
+        </div>
+        <div class="row" style="margin-top: 10px">
+          <button id="add-btn" type="button">Add step</button>
+          <button id="undo-btn" class="ghost" type="button">Undo last</button>
+          <button id="grade-btn" type="button">Grade me</button>
+        </div>
+        <ol class="steps" id="step-list"></ol>
+      </section>
+
+      <section class="card hidden" id="report"></section>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
