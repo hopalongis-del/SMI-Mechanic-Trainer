@@ -195,8 +195,11 @@ def hit_reply(case: dict[str, Any], check: dict[str, Any], already: list[str], s
     if extra:
         return f"{reply} {extra}"
     leftover = [item for item in core_checks(case) if item["id"] not in already]
-    if leftover and check.get("core"):
+    leftover_problems = [item for item in leftover if not item.get("fix")]
+    if leftover_problems and check.get("core"):
         return f"{reply} That's only part of the issue."
+    if leftover and check.get("core") and not check.get("fix"):
+        return f"{reply} That's the problem. Now fix it."
     return reply
 
 

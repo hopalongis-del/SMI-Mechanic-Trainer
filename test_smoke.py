@@ -67,7 +67,7 @@ def main() -> None:
         )
         assert part.status_code == 200, part.text
         assert part.json()["solved"] is False
-        assert "part" in part.json()["reply"].lower()
+        assert "filter" in part.json()["reply"].lower()
 
         foul = client.post(
             "/api/act",
