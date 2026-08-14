@@ -26,96 +26,97 @@ def any_alias(blob: str, aliases: list[str]) -> bool:
     return any(contains_alias(blob, alias) for alias in aliases)
 
 
-def grade_attempt(case: dict[str, Any], steps: list[str]) -> dict[str, Any]:
-    blob = normalize("\n".join(steps))
-    checks = case.get("checks") or []
-    forbidden = case.get("forbidden") or []
+def core_checks(case: dict[str, Any]) -> list[dict[str, Any]]:
+    return [item for item in (case.get("checks") or []) if item.get("core")]
 
-    earned = 0
-    possible = 0
-    hits: list[dict[str, Any]] = []
-    misses: list[dict[str, Any]] = []
 
-    for check in checks:
-        pts = int(check.get("points") or 0)
-        possible += pts
-        if any_alias(blob, check.get("aliases") or []):
-            earned += pts
-            hits.append(
-                {
-                    "id": check["id"],
-                    "label": check["label"],
-                    "category": check.get("category") or "diagnosis",
-                    "points": pts,
-                }
-            )
-        else:
-            misses.append(
-                {
-                    "id": check["id"],
-                    "label": check["label"],
-                    "category": check.get("category") or "diagnosis",
-                    "points": pts,
-                }
-            )
+def apply_step(
+    case: dict[str, Any],
+    step: str,
+    already: list[str] | None = None,
+) -> dict[str, Any]:
+    already = list(already or [])
+    blob = normalize(step)
 
-    penalties = 0
-    fouls: list[dict[str, Any]] = []
-    for rule in forbidden:
+    for rule in case.get("forbidden") or []:
         if any_alias(blob, rule.get("aliases") or []):
-            pen = int(rule.get("penalty") or 0)
-            penalties += pen
-            fouls.append(
-                {
-                    "id": rule["id"],
-                    "label": rule["label"],
-                    "penalty": pen,
-                }
-            )
+            return {
+                "kind": "foul",
+                "id": rule["id"],
+                "reply": rule.get("label") or "That's the expensive wrong call.",
+                "already": already,
+                "solved": False,
+            }
 
-    score = max(0, min(100, round((earned - penalties) / possible * 100))) if possible else 0
-    pass_score = int(case.get("pass_score") or 70)
-    safety_missed = [item for item in misses if item["category"] == "safety"]
-    result = "pass" if score >= pass_score and not safety_missed else "fail"
-    if score >= pass_score and safety_missed:
-        result = "almost"
+    matches = [
+        check
+        for check in (case.get("checks") or [])
+        if check["id"] not in already and any_alias(blob, check.get("aliases") or [])
+    ]
+    if matches:
+        check = next((item for item in matches if item.get("fix")), matches[0])
+        already.append(check["id"])
+        solved = _solved(case, already)
+        return {
+            "kind": "hit",
+            "id": check["id"],
+            "label": check["label"],
+            "reply": check.get("finding") or check["label"],
+            "core": bool(check.get("core")),
+            "fix": bool(check.get("fix")),
+            "already": already,
+            "solved": solved,
+        }
+
+    return {
+        "kind": "miss",
+        "id": None,
+        "reply": "Nothing useful from that. Try a real check — gas, spark, oil, belt, steering.",
+        "already": already,
+        "solved": False,
+    }
+
+
+def _solved(case: dict[str, Any], already: list[str]) -> bool:
+    fixes = [item for item in (case.get("checks") or []) if item.get("fix")]
+    if not fixes:
+        needed = {item["id"] for item in core_checks(case)}
+        return bool(needed) and needed.issubset(set(already))
+    return any(item["id"] in already for item in fixes)
+
+
+def grade_attempt(case: dict[str, Any], steps: list[str]) -> dict[str, Any]:
+    already: list[str] = []
+    log: list[dict[str, Any]] = []
+    fouls = 0
+    for step in steps:
+        result = apply_step(case, step, already)
+        already = result["already"]
+        log.append(result)
+        if result["kind"] == "foul":
+            fouls += 1
+
+    solved = _solved(case, already)
+    cores = core_checks(case)
+    hit_cores = [item for item in cores if item["id"] in already]
+    result = "pass" if solved and fouls == 0 else ("almost" if solved else "fail")
+    score = 100 if result == "pass" else (80 if result == "almost" else min(60, 20 * len(hit_cores)))
+
+    if result == "pass":
+        feedback = "That's it. You found it and you fixed it."
+    elif result == "almost":
+        feedback = "You got there, but you also called a bad part. Don't do that on the lot."
+    else:
+        feedback = "Not yet. You don't have to name every check — just find what's actually wrong and fix it."
 
     return {
         "score": score,
         "result": result,
-        "pass_score": pass_score,
-        "earned": earned,
-        "possible": possible,
-        "penalties": penalties,
-        "hits": hits,
-        "misses": misses,
-        "fouls": fouls,
+        "solved": solved,
+        "needed": len(cores),
+        "found": len(hit_cores),
+        "hits": [item for item in log if item["kind"] == "hit"],
+        "fouls": [item for item in log if item["kind"] == "foul"],
         "cause": case.get("cause") or "",
-        "feedback": _feedback(result, hits, misses, fouls, safety_missed),
+        "feedback": feedback,
     }
-
-
-def _feedback(
-    result: str,
-    hits: list[dict[str, Any]],
-    misses: list[dict[str, Any]],
-    fouls: list[dict[str, Any]],
-    safety_missed: list[dict[str, Any]],
-) -> str:
-    if result == "pass":
-        lead = "That's a pass. You chased the cart, not the parts cannon."
-    elif result == "almost":
-        lead = "Score was there, but you skipped a safety step. That's a fail on the lot."
-    else:
-        lead = "Not a pass. You either skipped the cheap checks or jumped to a part."
-
-    bits = [lead]
-    if fouls:
-        bits.append("Don't " + fouls[0]["label"].lower() + ".")
-    if safety_missed:
-        bits.append("Safety miss: " + safety_missed[0]["label"] + ".")
-    elif misses:
-        bits.append("Biggest miss: " + misses[0]["label"] + ".")
-    if hits:
-        bits.append("You did get: " + hits[0]["label"].lower() + ".")
-    return " ".join(bits)

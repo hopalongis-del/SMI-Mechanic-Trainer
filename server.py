@@ -12,7 +12,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
-from grade import grade_attempt
+from grade import apply_step, grade_attempt
 
 ROOT = Path(__file__).parent.resolve()
 DATA_DIR = Path(os.environ.get("DATA_DIR", str(ROOT))).resolve()
@@ -33,10 +33,15 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+_CASES_MTIME = 0.0
+
+
 def load_bank() -> dict[str, Any]:
-    global _CASES
-    if _CASES is None:
+    global _CASES, _CASES_MTIME
+    mtime = CASES_PATH.stat().st_mtime
+    if _CASES is None or mtime != _CASES_MTIME:
         _CASES = json.loads(CASES_PATH.read_text(encoding="utf-8"))
+        _CASES_MTIME = mtime
     return _CASES
 
 
@@ -103,10 +108,32 @@ def get_case(case_id: str) -> dict[str, Any]:
     raise HTTPException(status_code=404, detail="Case not found")
 
 
+class ActIn(BaseModel):
+    case_id: str
+    step: str = Field(min_length=1, max_length=400)
+    already: list[str] = Field(default_factory=list)
+
+
 class GradeIn(BaseModel):
     trainee: str = Field(min_length=1, max_length=80)
     case_id: str
     steps: list[str] = Field(min_length=1)
+
+
+@app.post("/api/act")
+def act(body: ActIn) -> dict[str, Any]:
+    bank = load_bank()
+    case = next((item for item in bank["cases"] if item["id"] == body.case_id), None)
+    if not case:
+        raise HTTPException(status_code=404, detail="Case not found")
+    result = apply_step(case, body.step.strip(), body.already)
+    cores = [item["id"] for item in case.get("checks") or [] if item.get("core")]
+    result["needed"] = len(cores)
+    result["found"] = len([item for item in cores if item in result["already"]])
+    result["hint"] = case.get("hint") or ""
+    if result.get("solved"):
+        result["cause"] = case.get("cause") or ""
+    return result
 
 
 @app.post("/api/grade")

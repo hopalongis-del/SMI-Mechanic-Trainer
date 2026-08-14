@@ -103,9 +103,39 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
   font-size: 0.92rem;
 }
 
-.steps { list-style: decimal; padding-left: 22px; margin: 8px 0 0; }
+.log {
+  max-height: 380px;
+  overflow: auto;
+  margin: 0 0 14px;
+  display: grid;
+  gap: 10px;
+}
 
-.steps li { margin: 4px 0; }
+.line {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.line span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  padding-top: 4px;
+}
+
+.line p {
+  margin: 0;
+  background: #12170f;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+
+.line.you p { border-color: rgba(196, 163, 90, 0.35); }
+.line.hit p { border-color: rgba(125, 186, 106, 0.45); }
+.line.foul p { border-color: rgba(212, 91, 74, 0.55); }
+.line.pass p { border-color: var(--go); color: var(--go); }
 
 .score {
   font-size: 2.4rem;

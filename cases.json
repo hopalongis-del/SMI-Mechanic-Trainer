@@ -1,11 +1,12 @@
 {
-  "version": 2,
+  "version": 3,
   "product": "SMI Mechanic Trainer",
-  "notes": "Entire SMIP event fleet is gasoline. No electric-pack cases.",
+  "notes": "Gasoline fleet. Play is probe → finding → call the fix. Only core items are required.",
   "cases": [
     {
       "id": "no-start-after-unload",
       "title": "Dead after the trailer",
+      "hint": "Cheap stuff first. Gas and the kill switch. Don't start with the engine.",
       "cart": {
         "example_id": "2000",
         "category": "UT",
@@ -20,63 +21,43 @@
       },
       "setting": "Richmond compound. Morning after unload.",
       "ticket": "Unloaded this morning off the enclosed trailer. Key is on. Pedal goes down and the engine never turns over. Fuel gauge is sitting on empty.",
-      "cause": "It sat through the haul with almost no gas, and the kill / run switch was left off after unload. Fill it, kill switch on, then it fires. Not an engine.",
-      "pass_score": 70,
+      "cause": "Tank is empty and the kill switch was left off after unload. Fill it, switch on, it fires.",
       "checks": [
         {
-          "id": "safety-chock",
-          "category": "safety",
-          "label": "Chock it or confirm it can't roll",
-          "aliases": ["chock", "block the wheels", "wheel stop", "can't roll"],
-          "points": 8
+          "id": "fuel-level",
+          "core": true,
+          "label": "Check the gas",
+          "aliases": ["gas", "fuel", "tank", "empty", "gauge"],
+          "finding": "Gauge is on empty. Tank is dry."
         },
         {
           "id": "kill-switch",
-          "category": "diagnosis",
-          "label": "Check the kill / run / neutral lockout switch",
-          "aliases": ["kill switch", "run switch", "neutral", "lockout", "on off switch under"],
-          "points": 22
-        },
-        {
-          "id": "fuel-level",
-          "category": "diagnosis",
-          "label": "Check the gas",
-          "aliases": ["gas", "fuel", "empty tank", "low fuel", "add fuel", "fill it"],
-          "points": 28
-        },
-        {
-          "id": "key-pedal",
-          "category": "diagnosis",
-          "label": "Confirm key on and pedal / FNR in a start position",
-          "aliases": ["key on", "pedal", "forward", "fnr", "in gear"],
-          "points": 12
+          "core": true,
+          "label": "Check the kill switch",
+          "aliases": ["kill switch", "run switch", "neutral", "lockout"],
+          "finding": "Kill switch is off."
         },
         {
           "id": "fix-run",
-          "category": "fix",
-          "label": "Put gas in it, kill switch on, restart and test drive",
-          "aliases": ["filled", "put gas", "add gas", "switch on", "it started", "test drive"],
-          "points": 20
+          "core": true,
+          "fix": true,
+          "label": "Fill it and turn the kill switch on",
+          "aliases": ["fill", "put gas", "add gas", "switch on", "kill switch on", "it started"],
+          "finding": "You put gas in it and flip the kill switch on. It starts and idles."
         }
       ],
       "forbidden": [
         {
           "id": "throw-engine",
-          "label": "Calling for an engine or carb first",
-          "aliases": ["replace the engine", "new engine", "rebuild the carb", "new carburetor"],
-          "penalty": 25
-        },
-        {
-          "id": "electric-pack",
-          "label": "Treating it like an electric pack cart",
-          "aliases": ["meter the pack", "36 volt", "48 volt", "solenoid click", "tow/run"],
-          "penalty": 20
+          "label": "That's an engine swap for a dry tank.",
+          "aliases": ["replace the engine", "new engine", "rebuild the carb"]
         }
       ]
     },
     {
       "id": "crank-no-spark",
       "title": "Cranks, never fires",
+      "hint": "It cranks and it smells like gas. Next question is spark.",
       "cart": {
         "example_id": "4081",
         "category": "4P",
@@ -87,67 +68,46 @@
         "engine": "FE350-style gas",
         "top": "No top",
         "color": "Red",
-        "notes": "Common 4-passenger Club Car. Same family as the ones with oil-leak writeups."
+        "notes": "Common 4-passenger Club Car."
       },
       "setting": "Charlotte shop. Came back from last weekend.",
       "ticket": "Engine cranks but never starts. You can smell raw gas around the carb. Operator has been trying to start it over and over.",
-      "cause": "Fouled spark plug. They flooded it. Pull the plug, read it, put a new one in, don't keep cranking.",
-      "pass_score": 70,
+      "cause": "Fouled spark plug. They flooded it. New plug, stop cranking.",
       "checks": [
         {
-          "id": "safety",
-          "category": "safety",
-          "label": "Key off and pull the plug wire before you work the plug",
-          "aliases": ["key off", "plug wire", "spark plug wire", "disconnect the plug"],
-          "points": 10
-        },
-        {
-          "id": "fuel-present",
-          "category": "diagnosis",
-          "label": "Confirm it has gas and is actually cranking",
-          "aliases": ["has gas", "fuel", "it cranks", "starter spins", "flooded"],
-          "points": 12
+          "id": "read-plug",
+          "core": true,
+          "label": "Pull the spark plug",
+          "aliases": ["spark plug", "pull the plug", "plug", "fouled"],
+          "finding": "Plug is wet and black. Fouled."
         },
         {
           "id": "spark-check",
-          "category": "diagnosis",
           "label": "Check for spark",
-          "aliases": ["check for spark", "spark test", "no spark", "inline spark", "plug tester"],
-          "points": 22
-        },
-        {
-          "id": "read-plug",
-          "category": "diagnosis",
-          "label": "Pull and read the spark plug",
-          "aliases": ["spark plug", "pull the plug", "fouled plug", "wet plug", "black plug"],
-          "points": 22
+          "aliases": ["spark test", "check for spark", "no spark"],
+          "finding": "Weak spark on a dirty plug. Plug is the problem, not the coil."
         },
         {
           "id": "fix-plug",
-          "category": "fix",
-          "label": "Replace the plug and restart without flooding it again",
-          "aliases": ["new plug", "replace the plug", "replace spark plug", "it fired", "it started"],
-          "points": 24
+          "core": true,
+          "fix": true,
+          "label": "Put a new plug in",
+          "aliases": ["new plug", "replace the plug", "replace spark plug", "it started"],
+          "finding": "New plug in. It fires on the first try."
         }
       ],
       "forbidden": [
         {
-          "id": "keep-cranking",
-          "label": "Keep cranking a flooded cart",
-          "aliases": ["keep cranking", "hit it again", "crank it more"],
-          "penalty": 15
-        },
-        {
           "id": "new-engine",
-          "label": "Calling the engine dead because it won't pop",
-          "aliases": ["replace the engine", "engine is seized", "new motor"],
-          "penalty": 25
+          "label": "The engine is spinning. It's a plug.",
+          "aliases": ["replace the engine", "engine is seized", "new motor"]
         }
       ]
     },
     {
       "id": "starts-then-dies",
-      "title": "Starts, then dies on the way out",
+      "title": "Starts, then dies",
+      "hint": "It has just enough fuel to start. After that the line is starving.",
       "cart": {
         "example_id": "4PF-EZ",
         "category": "4PF",
@@ -155,64 +115,49 @@
         "model": "4-passenger flip seat",
         "year": 2019,
         "fuel": "Gasoline",
-        "engine": "Gas / EFI or carb as equipped",
+        "engine": "Gas",
         "top": "Folding top",
         "color": "White",
-        "notes": "Flip-seat 4PF. Sat a couple weeks after the last event."
+        "notes": "Sat a couple weeks after the last event."
       },
-      "setting": "SMIP shop, Monday. They need it for a local pull.",
+      "setting": "SMIP shop, Monday.",
       "ticket": "Starts on the first try, runs about ten seconds, then dies. Restarts every time. Same cycle if you keep doing it.",
-      "cause": "Stale ethanol gas and a clogged fuel filter. Bowl/injector is starving once the prime is gone. Fresh fuel and a filter, then it holds.",
-      "pass_score": 70,
+      "cause": "Stale gas and a clogged fuel filter. Fresh fuel and a new filter.",
       "checks": [
         {
-          "id": "repro",
-          "category": "diagnosis",
-          "label": "Watch it start and die instead of guessing",
-          "aliases": ["starts then dies", "dies after", "ran 10", "reproduce", "same thing"],
-          "points": 10
+          "id": "fuel-filter",
+          "core": true,
+          "label": "Check the fuel filter",
+          "aliases": ["fuel filter", "filter", "fuel line", "clogged"],
+          "finding": "Filter is dark and barely passing fuel."
         },
         {
           "id": "fuel-age",
-          "category": "diagnosis",
-          "label": "Ask how old the gas is / smell it / check the tank",
-          "aliases": ["stale", "old gas", "ethanol", "varnish", "how old", "smells like"],
-          "points": 20
-        },
-        {
-          "id": "fuel-filter",
-          "category": "diagnosis",
-          "label": "Check the fuel filter / fuel getting to the carb or injector",
-          "aliases": ["fuel filter", "clogged filter", "no fuel", "fuel line", "injector screen"],
-          "points": 25
-        },
-        {
-          "id": "vent-cap",
-          "category": "diagnosis",
-          "label": "Check the fuel cap vent if it dies after a short run",
-          "aliases": ["fuel cap", "vent", "vacuum", "cap vent"],
-          "points": 10
+          "label": "Check how old the gas is",
+          "aliases": ["stale", "old gas", "ethanol", "tank", "smell"],
+          "finding": "Gas smells like varnish. It's been sitting."
         },
         {
           "id": "fix-fuel",
-          "category": "fix",
-          "label": "Fresh gas and a new filter, then a longer test drive",
-          "aliases": ["fresh gas", "new filter", "replace the filter", "drain the tank", "test drive"],
-          "points": 25
+          "core": true,
+          "fix": true,
+          "label": "Fresh gas and a new filter",
+          "aliases": ["fresh gas", "new filter", "replace the filter", "drain the tank"],
+          "finding": "New filter, fresh gas. It holds a long idle and a test loop."
         }
       ],
       "forbidden": [
         {
-          "id": "new-carb-first",
-          "label": "Replacing the carb with no fuel-side check",
-          "aliases": ["replace the carb", "new carburetor", "rebuild the carb"],
-          "penalty": 20
+          "id": "new-carb",
+          "label": "Don't throw a carb before the filter.",
+          "aliases": ["replace the carb", "new carburetor", "rebuild the carb"]
         }
       ]
     },
     {
       "id": "side-gasket-oil",
       "title": "Oil all over the side",
+      "hint": "Find the leak, but check the stick first so you don't run it dry.",
       "cart": {
         "example_id": "4081",
         "category": "4P",
@@ -223,54 +168,47 @@
         "engine": "Gas",
         "top": "No top",
         "color": "Red",
-        "notes": "Real fleet writeup: oil leak side gasket. Same leak showed up on EZ-GO units at Darlington."
+        "notes": "Real writeup: oil leak side gasket."
       },
-      "setting": "After TSS. Double Bogey hauled it. Sitting in the out-of-service row.",
+      "setting": "After TSS. Sitting in the out-of-service row.",
       "ticket": "Oil on the left side of the engine and a drip under the cart on the trailer. They drove it in anyway.",
-      "cause": "Side case gasket. Check oil first so they didn't already kill it, then gasket — not a new engine unless it's empty and knocking.",
-      "pass_score": 70,
+      "cause": "Side case gasket. Check oil, replace the gasket, refill. Don't send it leaking.",
       "checks": [
         {
           "id": "oil-level",
-          "category": "safety",
-          "label": "Check the oil level before you run it again",
-          "aliases": ["oil level", "dipstick", "check the oil", "low oil", "no oil"],
-          "points": 25
+          "core": true,
+          "label": "Check the oil",
+          "aliases": ["oil level", "dipstick", "check the oil", "low oil"],
+          "finding": "Oil is down. Not empty yet."
         },
         {
           "id": "find-leak",
-          "category": "diagnosis",
-          "label": "Find where it's coming from (side gasket vs drain vs valve cover)",
-          "aliases": ["side gasket", "case gasket", "valve cover", "drain plug", "where it's leaking"],
-          "points": 22
-        },
-        {
-          "id": "dont-run-dry",
-          "category": "safety",
-          "label": "Do not send it back out low on oil",
-          "aliases": ["don't run it", "park it", "out of service", "add oil", "not going back out"],
-          "points": 15
+          "core": true,
+          "label": "Find the leak",
+          "aliases": ["side gasket", "gasket", "where it's leaking", "left side"],
+          "finding": "It's weeping from the side case gasket, not the drain plug."
         },
         {
           "id": "fix-gasket",
-          "category": "fix",
-          "label": "Replace the side gasket, refill oil, write the date on the tank",
-          "aliases": ["replace the gasket", "new gasket", "side gasket", "refill the oil", "date on the tank"],
-          "points": 28
+          "core": true,
+          "fix": true,
+          "label": "Replace the gasket and refill",
+          "aliases": ["replace the gasket", "new gasket", "refill the oil"],
+          "finding": "Gasket replaced, oil refilled. No drip on the next start."
         }
       ],
       "forbidden": [
         {
-          "id": "keep-driving",
-          "label": "Sending it to the next event leaking",
-          "aliases": ["it'll be fine", "just add oil and send it", "send it anyway"],
-          "penalty": 25
+          "id": "send-it",
+          "label": "Don't send a leaker to the next event.",
+          "aliases": ["send it anyway", "it'll be fine", "just add oil and send"]
         }
       ]
     },
     {
       "id": "engine-noise",
       "title": "It sounds like rocks in a can",
+      "hint": "Knocking motor. Oil, then shut it down. Don't keep driving it.",
       "cart": {
         "example_id": "4068",
         "category": "4P",
@@ -281,60 +219,40 @@
         "engine": "Gas",
         "top": "No top",
         "color": "Red",
-        "notes": "Real note from Kansas drop-off: internal engine noise."
+        "notes": "Kansas drop-off: internal engine noise."
       },
-      "setting": "Kansas. They dropped it at the track and called it in.",
+      "setting": "Kansas. They dropped it at the track.",
       "ticket": "Cart runs, but there's a knock from inside the engine. It got louder crossing the lot.",
-      "cause": "Internal engine noise. Check oil, shut it down, don't keep driving it. This is a park-it and tear-down, not a carb clean.",
-      "pass_score": 70,
+      "cause": "Internal knock. Check oil, shut it off, tag it out. Not a carb job.",
       "checks": [
         {
           "id": "oil-first",
-          "category": "safety",
-          "label": "Check oil immediately",
-          "aliases": ["check the oil", "oil level", "dipstick", "no oil", "low oil"],
-          "points": 22
+          "core": true,
+          "label": "Check the oil",
+          "aliases": ["check the oil", "oil level", "dipstick"],
+          "finding": "Oil is on the stick. This isn't a dry motor. The knock is still there."
         },
         {
           "id": "shut-down",
-          "category": "safety",
-          "label": "Shut it off. Don't keep driving a knocking motor",
-          "aliases": ["shut it off", "don't drive", "park it", "kill it", "stop running"],
-          "points": 25
-        },
-        {
-          "id": "where-noise",
-          "category": "diagnosis",
-          "label": "Figure out if it's engine, clutch, or exhaust heat shield",
-          "aliases": ["knock", "bottom end", "rod", "clutch", "heat shield", "exhaust", "internal"],
-          "points": 18
-        },
-        {
-          "id": "oos",
-          "category": "ops",
-          "label": "Tag it out of service and write the work order",
-          "aliases": ["out of service", "work order", "tag it", "don't send it"],
-          "points": 20
+          "core": true,
+          "fix": true,
+          "label": "Shut it down and tag it out",
+          "aliases": ["shut it off", "park it", "out of service", "tag it", "work order", "don't drive"],
+          "finding": "You kill it and tag it out of service. Right call. This one doesn't go back in the row."
         }
       ],
       "forbidden": [
         {
           "id": "carb-it",
-          "label": "Cleaning the carb on a knock",
-          "aliases": ["clean the carb", "replace the carb", "it's just the belt"],
-          "penalty": 20
-        },
-        {
-          "id": "keep-using",
-          "label": "Leaving it in the rental row",
-          "aliases": ["leave it in service", "customer can still use it"],
-          "penalty": 25
+          "label": "A knock is not a carb.",
+          "aliases": ["clean the carb", "replace the carb"]
         }
       ]
     },
     {
       "id": "valor-heat-die",
       "title": "Valor dies after it gets hot",
+      "hint": "EX1 heat-soaks. Look at the driver's-side screen and the cooling fins.",
       "cart": {
         "example_id": "NP-4PF",
         "category": "4PF",
@@ -345,68 +263,47 @@
         "engine": "EX1 150cc EFI, air-cooled, CVT, ISG",
         "top": "Factory top",
         "color": "White",
-        "notes": "NP / TV compound. EX1 hates heat, dust, and idle. Drive-on only — never reverse a Valor onto a trailer."
+        "notes": "NP / TV compound. Drive-on only."
       },
-      "setting": "Iowa infield. Been running suite shuttles in the sun.",
+      "setting": "Iowa infield. Suite shuttles in the sun.",
       "ticket": "Runs about 20 minutes, then loses power and dies. Restarts after it sits. Driver-side rear of the engine is packed with dirt.",
-      "cause": "Clogged CVT / cooling filter and dirty cooling fins. Heat soak. Clean the fins and the driver's-side screen. Not a new engine.",
-      "pass_score": 70,
+      "cause": "Clogged CVT cooling screen and dirty fins. Clean them. Not a new engine.",
       "checks": [
         {
-          "id": "hot-repro",
-          "category": "diagnosis",
-          "label": "Note that it only dies hot, then comes back",
-          "aliases": ["dies hot", "after it sits", "heat", "loses power", "20 minutes"],
-          "points": 12
-        },
-        {
           "id": "cvt-filter",
-          "category": "diagnosis",
-          "label": "Check the driver's-side CVT / cooling filter",
-          "aliases": ["cvt filter", "cvt screen", "driver side", "cooling filter", "mesh"],
-          "points": 25
+          "core": true,
+          "label": "Check the CVT / cooling screen",
+          "aliases": ["cvt", "cooling filter", "driver side", "screen", "mesh"],
+          "finding": "Driver-side CVT screen is packed solid with dirt."
         },
         {
           "id": "fins",
-          "category": "diagnosis",
-          "label": "Blow out the cooling fins",
-          "aliases": ["cooling fins", "blow out", "compressed air", "fins are packed"],
-          "points": 20
-        },
-        {
-          "id": "oil-air",
-          "category": "diagnosis",
-          "label": "Check oil level and the air filter",
-          "aliases": ["oil level", "air filter", "oil"],
-          "points": 12
+          "core": true,
+          "label": "Check the cooling fins",
+          "aliases": ["cooling fins", "fins", "blow out"],
+          "finding": "Fins are caked. No air getting through."
         },
         {
           "id": "fix-clean",
-          "category": "fix",
-          "label": "Clean the cooling path and test it hot again",
-          "aliases": ["clean", "blow it out", "test it hot", "ran it again"],
-          "points": 15
-        },
-        {
-          "id": "valor-drive-on",
-          "category": "ops",
-          "label": "Valor gets driven on a trailer, never reversed on",
-          "aliases": ["drive on", "don't reverse", "never reverse", "driven on"],
-          "points": 8
+          "core": true,
+          "fix": true,
+          "label": "Clean the fins and screen",
+          "aliases": ["clean", "blow it out", "compressed air"],
+          "finding": "Screen and fins are clear. After a hot test loop it holds power."
         }
       ],
       "forbidden": [
         {
           "id": "new-engine",
-          "label": "Replacing the EX1 because it heat-soaked",
-          "aliases": ["replace the engine", "new engine", "engine is junk"],
-          "penalty": 25
+          "label": "Don't replace an EX1 because it's dirty.",
+          "aliases": ["replace the engine", "new engine"]
         }
       ]
     },
     {
       "id": "valor-isg",
       "title": "Valor won't crank",
+      "hint": "This is an ISG cart. Check 12V first, then the ISG — not a car starter.",
       "cart": {
         "example_id": "NP-UT",
         "category": "UT",
@@ -417,54 +314,40 @@
         "engine": "EX1 with Integrated Starter Generator",
         "top": "No top",
         "color": "White",
-        "notes": "EX1 uses an ISG, not a regular starter. Early ISG controllers die from heat and vibration."
+        "notes": "ISG, not a regular starter."
       },
-      "setting": "Compound, late afternoon. Cart is heat-soaked.",
+      "setting": "Compound, late afternoon. Heat-soaked.",
       "ticket": "Key on, lights work, engine will not crank. They jumped it off another cart and it still will not crank.",
-      "cause": "ISG controller. 12V battery and connections were fine. Updated controller (10017118) is the fleet part, not a starter motor.",
-      "pass_score": 68,
+      "cause": "ISG controller. Battery was fine. Updated controller, not a starter motor.",
       "checks": [
         {
           "id": "12v",
-          "category": "diagnosis",
-          "label": "Meter the 12V battery and clean the cables first",
-          "aliases": ["12 volt", "12v", "battery voltage", "battery cables", "clean the terminals"],
-          "points": 20
+          "core": true,
+          "label": "Check the 12V battery",
+          "aliases": ["12 volt", "12v", "battery", "cables", "jump"],
+          "finding": "Battery is 12.6V. Cables are clean. Jumping it did nothing because the battery isn't the problem."
         },
         {
-          "id": "not-starter",
-          "category": "diagnosis",
-          "label": "This cart has an ISG, not a regular starter",
-          "aliases": ["isg", "integrated starter", "starter generator", "not a starter"],
-          "points": 25
-        },
-        {
-          "id": "clicks",
-          "category": "diagnosis",
-          "label": "Note key-on behavior (lights vs crank)",
-          "aliases": ["lights work", "no crank", "key on", "won't crank"],
-          "points": 10
-        },
-        {
-          "id": "fix-isg",
-          "category": "fix",
-          "label": "Replace the ISG controller (updated heat-sink unit) and retest",
-          "aliases": ["isg controller", "10017118", "replace the isg", "new controller"],
-          "points": 25
+          "id": "isg",
+          "core": true,
+          "fix": true,
+          "label": "ISG controller",
+          "aliases": ["isg", "starter generator", "isg controller", "10017118"],
+          "finding": "ISG controller is dead. New updated unit in, it cranks."
         }
       ],
       "forbidden": [
         {
           "id": "car-starter",
-          "label": "Ordering a conventional starter",
-          "aliases": ["new starter motor", "replace the starter", "chevy starter"],
-          "penalty": 20
+          "label": "Valor doesn't take a regular starter.",
+          "aliases": ["new starter motor", "replace the starter"]
         }
       ]
     },
     {
       "id": "belt-slip-6p",
       "title": "Engine screams, cart crawls",
+      "hint": "Motor is making power. The belt isn't taking it to the axle.",
       "cart": {
         "example_id": "6P-EZ",
         "category": "6P",
@@ -475,54 +358,46 @@
         "engine": "Gas with CVT / drive clutch",
         "top": "Flat top",
         "color": "White",
-        "notes": "Heavy 6-pass. These cook belts on the suite hill."
+        "notes": "Heavy 6-pass. Suite hill."
       },
       "setting": "Infield. Hospitality wants it now.",
       "ticket": "Fine around the compound. Halfway up the suite hill the engine revs and the cart barely moves. You can smell belt.",
-      "cause": "Glazed / worn drive belt (or clutch). Engine is fine. Replace the belt, inspect drive/driven clutch, test the hill again.",
-      "pass_score": 70,
+      "cause": "Glazed drive belt. Replace the belt. Engine is fine.",
       "checks": [
         {
-          "id": "repro",
-          "category": "diagnosis",
-          "label": "Reproduce under load, not just in the bay",
-          "aliases": ["test drive", "hill", "under load", "suites", "rev"],
-          "points": 12
-        },
-        {
           "id": "belt",
-          "category": "diagnosis",
-          "label": "Inspect the drive belt",
-          "aliases": ["drive belt", "belt is glazed", "worn belt", "cvt belt", "smells like belt"],
-          "points": 28
+          "core": true,
+          "label": "Look at the drive belt",
+          "aliases": ["belt", "drive belt", "cvt belt", "glazed"],
+          "finding": "Belt is glazed and shiny. That's the smell."
         },
         {
           "id": "clutch",
-          "category": "diagnosis",
-          "label": "Check drive and driven clutch",
-          "aliases": ["drive clutch", "driven clutch", "clutches", "primary clutch", "secondary"],
-          "points": 20
+          "label": "Check the clutches",
+          "aliases": ["clutch", "drive clutch", "driven clutch"],
+          "finding": "Clutches look serviceable. Belt is the worn part."
         },
         {
           "id": "fix-belt",
-          "category": "fix",
-          "label": "Replace the belt and retest the hill",
-          "aliases": ["replace the belt", "new belt", "put a belt on", "test the hill"],
-          "points": 25
+          "core": true,
+          "fix": true,
+          "label": "Put a new belt on",
+          "aliases": ["replace the belt", "new belt", "put a belt"],
+          "finding": "New belt on. It pulls the hill without screaming."
         }
       ],
       "forbidden": [
         {
           "id": "new-engine",
-          "label": "Blaming the motor because it revs",
-          "aliases": ["replace the engine", "motor is weak", "no compression"],
-          "penalty": 25
+          "label": "The engine is revving. That's not a dead motor.",
+          "aliases": ["replace the engine", "motor is weak"]
         }
       ]
     },
     {
       "id": "bent-steer-transit",
       "title": "Pulls left after offload",
+      "hint": "Engine is fine. Get under the front and look.",
       "cart": {
         "example_id": "4P-EZ",
         "category": "4P",
@@ -533,61 +408,40 @@
         "engine": "Gas",
         "top": "No top",
         "color": "White",
-        "notes": "Came off a Sun Valley at Richmond. Strap marks on the cowl."
+        "notes": "Off a Sun Valley at Richmond."
       },
-      "setting": "Just offloaded. They drove it 40 feet and parked it.",
+      "setting": "Just offloaded.",
       "ticket": "Pulls hard left as soon as you start rolling. Engine sounds fine. They only drove it off the trailer about 40 feet.",
-      "cause": "Bent tie rod / steering from the strap or a hit during unload. Mechanical. Don't touch the motor.",
-      "pass_score": 70,
+      "cause": "Bent tie rod from the strap or unload. Mechanical.",
       "checks": [
         {
-          "id": "test-drive",
-          "category": "diagnosis",
-          "label": "Drive it and confirm the pull",
-          "aliases": ["test drive", "drive it", "pulls left", "won't track"],
-          "points": 10
-        },
-        {
           "id": "visual-steer",
-          "category": "diagnosis",
-          "label": "Inspect tie rods, steering, A-arms, and rims",
-          "aliases": ["tie rod", "steering", "bent", "spindle", "a-arm", "rim", "alignment"],
-          "points": 30
-        },
-        {
-          "id": "not-engine",
-          "category": "diagnosis",
-          "label": "Don't treat a pull as an engine problem",
-          "aliases": ["not the engine", "mechanical", "under the cart", "steering"],
-          "points": 15
+          "core": true,
+          "label": "Inspect the steering",
+          "aliases": ["tie rod", "steering", "bent", "front end", "alignment"],
+          "finding": "Left tie rod is bent. Looks like a strap or a hit on the way off."
         },
         {
           "id": "fix-rod",
-          "category": "fix",
-          "label": "Replace/straighten the bent part and test again",
+          "core": true,
+          "fix": true,
+          "label": "Replace the tie rod",
           "aliases": ["replace the tie rod", "new tie rod", "straighten", "fix the steering"],
-          "points": 25
-        },
-        {
-          "id": "damage-wo",
-          "category": "ops",
-          "label": "Write it up as transit/unload damage",
-          "aliases": ["work order", "damage", "transit", "offload", "strap"],
-          "points": 10
+          "finding": "New tie rod on. It tracks straight."
         }
       ],
       "forbidden": [
         {
           "id": "engine",
-          "label": "Tearing into the engine for a steering pull",
-          "aliases": ["replace the engine", "bad motor", "alignment in the carb"],
-          "penalty": 30
+          "label": "Don't tear into the engine for a pull.",
+          "aliases": ["replace the engine", "bad motor"]
         }
       ]
     },
     {
       "id": "low-oil-shutdown",
       "title": "It shut off and the light's on",
+      "hint": "Believe the oil light. Don't jump it.",
       "cart": {
         "example_id": "UT-800",
         "category": "UT",
@@ -598,55 +452,39 @@
         "engine": "Gas with low-oil / fuel light",
         "top": "No top",
         "color": "Tan",
-        "notes": "Shop utility. They've been tugging with it all week."
+        "notes": "Shop utility."
       },
       "setting": "Compound. End of the day.",
       "ticket": "Died in the alley. Low oil / fuel light is on. Operator wants it jumped so they can keep using it.",
-      "cause": "Low oil, not a dead battery. These engines shut down on purpose. Check oil, find the leak, fill it. Date the tank when you're done.",
-      "pass_score": 70,
+      "cause": "Low oil. These engines shut down on purpose. Fill it, find the leak.",
       "checks": [
         {
-          "id": "light",
-          "category": "diagnosis",
-          "label": "Read the low oil / fuel light instead of ignoring it",
-          "aliases": ["oil light", "fuel light", "low oil", "warning light"],
-          "points": 15
-        },
-        {
           "id": "oil",
-          "category": "safety",
-          "label": "Check the oil before you restart it",
-          "aliases": ["check the oil", "dipstick", "oil level", "no oil"],
-          "points": 28
-        },
-        {
-          "id": "fuel-too",
-          "category": "diagnosis",
-          "label": "Check fuel if the light is shared",
-          "aliases": ["check the fuel", "gas", "empty", "fuel gauge"],
-          "points": 10
+          "core": true,
+          "label": "Check the oil",
+          "aliases": ["check the oil", "dipstick", "oil level", "oil light"],
+          "finding": "Stick is almost dry. That's why it died."
         },
         {
           "id": "leak",
-          "category": "diagnosis",
-          "label": "Find why the oil is gone",
-          "aliases": ["leak", "gasket", "drain", "where the oil went"],
-          "points": 15
+          "label": "Find the leak",
+          "aliases": ["leak", "gasket", "where the oil"],
+          "finding": "Slow weep at the side gasket. That's where the oil went."
         },
         {
           "id": "fix",
-          "category": "fix",
-          "label": "Fill with the right oil, fix the leak, write the date on the tank",
-          "aliases": ["add oil", "fill the oil", "5w-30", "date on the tank", "date of service"],
-          "points": 22
+          "core": true,
+          "fix": true,
+          "label": "Add oil and park it until the leak is fixed",
+          "aliases": ["add oil", "fill the oil", "5w-30", "date on the tank"],
+          "finding": "Oil filled. You keep it out of the row until the gasket is done."
         }
       ],
       "forbidden": [
         {
           "id": "jump-it",
-          "label": "Jumping it and sending it back out",
-          "aliases": ["jump it", "just restart it", "keep using it"],
-          "penalty": 25
+          "label": "Don't jump a low-oil shutdown.",
+          "aliases": ["jump it", "just restart it"]
         }
       ]
     }

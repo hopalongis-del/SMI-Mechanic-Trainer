@@ -12,7 +12,7 @@
       <header class="mast">
         <div>
           <h1>SMI Mechanic Trainer</h1>
-          <p class="sub">Cart + complaint. You write every step. We grade the work.</p>
+          <p class="sub">Check one thing. The cart tells you what you found. Call the fix when you know it.</p>
         </div>
         <div class="sub" id="case-count"></div>
       </header>
@@ -37,19 +37,15 @@
       </section>
 
       <section class="card hidden" id="work">
-        <label for="step">What did you do? One step at a time.</label>
-        <div class="row">
-          <textarea id="step" placeholder="Example: chocked it, key on, checked tow/run..."></textarea>
-        </div>
+        <div id="log" class="log"></div>
+        <label for="step">What are you checking?</label>
+        <textarea id="step" placeholder="gas, spark plug, oil, belt, kill switch..."></textarea>
         <div class="row" style="margin-top: 10px">
-          <button id="add-btn" type="button">Add step</button>
-          <button id="undo-btn" class="ghost" type="button">Undo last</button>
-          <button id="grade-btn" type="button">Grade me</button>
+          <button id="add-btn" type="button">Check it</button>
+          <button id="hint-btn" class="ghost" type="button">Hint</button>
+          <button id="next-btn" class="ghost hidden" type="button">Next cart</button>
         </div>
-        <ol class="steps" id="step-list"></ol>
       </section>
-
-      <section class="card hidden" id="report"></section>
     </div>
     <script src="app.js"></script>
   </body>
