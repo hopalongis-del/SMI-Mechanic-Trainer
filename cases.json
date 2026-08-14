@@ -22,28 +22,42 @@
       "setting": "Richmond compound. Morning after unload.",
       "ticket": "Unloaded this morning off the enclosed trailer. Key is on. Pedal goes down and the engine never turns over. Fuel gauge is sitting on empty.",
       "cause": "Tank is empty and the kill switch was left off after unload. Fill it, switch on, it fires.",
+      "still": "Pedal down, the engine still doesn't turn over.",
       "checks": [
         {
           "id": "fuel-level",
           "core": true,
+          "system": "fuel",
           "label": "Check the gas",
           "aliases": ["gas", "fuel", "tank", "empty", "gauge"],
-          "finding": "Gauge is on empty. Tank is dry."
+          "finding": "Gauge is on empty. Tank is dry.",
+          "after": "That's only part of the issue."
         },
         {
           "id": "kill-switch",
           "core": true,
+          "system": "electrical",
           "label": "Check the kill switch",
           "aliases": ["kill switch", "run switch", "neutral", "lockout"],
-          "finding": "Kill switch is off."
+          "finding": "Kill switch is off.",
+          "after": "That's only part of the issue."
+        },
+        {
+          "id": "fill-only",
+          "system": "fuel",
+          "label": "Put gas in it",
+          "aliases": ["fill", "put gas", "add gas"],
+          "finding": "Tank's full now.",
+          "after": "Pedal down — engine still doesn't turn over."
         },
         {
           "id": "fix-run",
           "core": true,
           "fix": true,
+          "system": "fuel",
           "label": "Fill it and turn the kill switch on",
-          "aliases": ["fill", "put gas", "add gas", "switch on", "kill switch on", "it started"],
-          "finding": "You put gas in it and flip the kill switch on. It starts and idles."
+          "aliases": ["switch on", "kill switch on", "it started"],
+          "finding": "Gas in it, kill switch on. It starts and idles."
         }
       ],
       "forbidden": [
@@ -73,16 +87,20 @@
       "setting": "Charlotte shop. Came back from last weekend.",
       "ticket": "Engine cranks but never starts. You can smell raw gas around the carb. Operator has been trying to start it over and over.",
       "cause": "Fouled spark plug. They flooded it. New plug, stop cranking.",
+      "still": "It still cranks and never fires.",
       "checks": [
         {
           "id": "read-plug",
           "core": true,
+          "system": "spark",
           "label": "Pull the spark plug",
           "aliases": ["spark plug", "pull the plug", "plug", "fouled"],
-          "finding": "Plug is wet and black. Fouled."
+          "finding": "Plug is wet and black. Fouled.",
+          "after": "That's the problem. Now change it."
         },
         {
           "id": "spark-check",
+          "system": "spark",
           "label": "Check for spark",
           "aliases": ["spark test", "check for spark", "no spark"],
           "finding": "Weak spark on a dirty plug. Plug is the problem, not the coil."
@@ -91,6 +109,7 @@
           "id": "fix-plug",
           "core": true,
           "fix": true,
+          "system": "spark",
           "label": "Put a new plug in",
           "aliases": ["new plug", "replace the plug", "replace spark plug", "it started"],
           "finding": "New plug in. It fires on the first try."
@@ -123,26 +142,41 @@
       "setting": "SMIP shop, Monday.",
       "ticket": "Starts on the first try, runs about ten seconds, then dies. Restarts every time. Same cycle if you keep doing it.",
       "cause": "Stale gas and a clogged fuel filter. Fresh fuel and a new filter.",
+      "still": "It still starts, runs about ten seconds, then dies.",
       "checks": [
         {
           "id": "fuel-filter",
           "core": true,
+          "system": "fuel",
           "label": "Check the fuel filter",
           "aliases": ["fuel filter", "filter", "fuel line", "clogged"],
-          "finding": "Filter is dark and barely passing fuel."
+          "finding": "Filter is dark and barely passing fuel.",
+          "after": "That's a big part of it. Gas may still be stale."
         },
         {
           "id": "fuel-age",
+          "core": true,
+          "system": "fuel",
           "label": "Check how old the gas is",
           "aliases": ["stale", "old gas", "ethanol", "tank", "smell"],
-          "finding": "Gas smells like varnish. It's been sitting."
+          "finding": "Gas smells like varnish. It's been sitting.",
+          "after": "That's only part of the issue. The filter can still be clogged."
+        },
+        {
+          "id": "fresh-only",
+          "system": "fuel",
+          "label": "Put fresh gas in",
+          "aliases": ["fresh gas", "drain the tank"],
+          "finding": "Fresh gas in it.",
+          "after": "It still dies after about ten seconds. Something in the line is still starving it."
         },
         {
           "id": "fix-fuel",
           "core": true,
           "fix": true,
-          "label": "Fresh gas and a new filter",
-          "aliases": ["fresh gas", "new filter", "replace the filter", "drain the tank"],
+          "system": "fuel",
+          "label": "New filter and fresh gas",
+          "aliases": ["new filter", "replace the filter"],
           "finding": "New filter, fresh gas. It holds a long idle and a test loop."
         }
       ],
@@ -173,6 +207,7 @@
       "setting": "After TSS. Sitting in the out-of-service row.",
       "ticket": "Oil on the left side of the engine and a drip under the cart on the trailer. They drove it in anyway.",
       "cause": "Side case gasket. Check oil, replace the gasket, refill. Don't send it leaking.",
+      "still": "It's still leaking.",
       "checks": [
         {
           "id": "oil-level",
@@ -224,6 +259,7 @@
       "setting": "Kansas. They dropped it at the track.",
       "ticket": "Cart runs, but there's a knock from inside the engine. It got louder crossing the lot.",
       "cause": "Internal knock. Check oil, shut it off, tag it out. Not a carb job.",
+      "still": "The knock is still there.",
       "checks": [
         {
           "id": "oil-first",
@@ -268,6 +304,7 @@
       "setting": "Iowa infield. Suite shuttles in the sun.",
       "ticket": "Runs about 20 minutes, then loses power and dies. Restarts after it sits. Driver-side rear of the engine is packed with dirt.",
       "cause": "Clogged CVT cooling screen and dirty fins. Clean them. Not a new engine.",
+      "still": "After it gets hot it still dies.",
       "checks": [
         {
           "id": "cvt-filter",
@@ -319,6 +356,7 @@
       "setting": "Compound, late afternoon. Heat-soaked.",
       "ticket": "Key on, lights work, engine will not crank. They jumped it off another cart and it still will not crank.",
       "cause": "ISG controller. Battery was fine. Updated controller, not a starter motor.",
+      "still": "Lights work. It still will not crank.",
       "checks": [
         {
           "id": "12v",
@@ -363,6 +401,7 @@
       "setting": "Infield. Hospitality wants it now.",
       "ticket": "Fine around the compound. Halfway up the suite hill the engine revs and the cart barely moves. You can smell belt.",
       "cause": "Glazed drive belt. Replace the belt. Engine is fine.",
+      "still": "Engine still revs and the cart barely moves.",
       "checks": [
         {
           "id": "belt",
@@ -413,6 +452,7 @@
       "setting": "Just offloaded.",
       "ticket": "Pulls hard left as soon as you start rolling. Engine sounds fine. They only drove it off the trailer about 40 feet.",
       "cause": "Bent tie rod from the strap or unload. Mechanical.",
+      "still": "It still pulls hard left.",
       "checks": [
         {
           "id": "visual-steer",
@@ -457,6 +497,7 @@
       "setting": "Compound. End of the day.",
       "ticket": "Died in the alley. Low oil / fuel light is on. Operator wants it jumped so they can keep using it.",
       "cause": "Low oil. These engines shut down on purpose. Fill it, find the leak.",
+      "still": "The light is still on. It still won't stay running.",
       "checks": [
         {
           "id": "oil",

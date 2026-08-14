@@ -27,8 +27,9 @@ def main() -> None:
             json={"case_id": "no-start-after-unload", "step": "check the gas", "already": []},
         )
         assert look.status_code == 200, look.text
-        assert look.json()["kind"] == "hit"
+        assert look.json()["kind"] in ("hit", "partial")
         assert "empty" in look.json()["reply"].lower()
+        assert "part" in look.json()["reply"].lower()
         assert look.json()["solved"] is False
 
         already = look.json()["already"]
@@ -49,7 +50,8 @@ def main() -> None:
         )
         assert pump.status_code == 200, pump.text
         assert pump.json()["kind"] == "ok"
-        assert pump.json()["reply"] == "Checks good."
+        assert "right area" in pump.json()["reply"].lower()
+        assert "ten seconds" in pump.json()["reply"].lower()
 
         swap = client.post(
             "/api/act",
@@ -57,7 +59,15 @@ def main() -> None:
         )
         assert swap.status_code == 200, swap.text
         assert swap.json()["kind"] == "persist"
-        assert "same thing" in swap.json()["reply"].lower() or "same problem" in swap.json()["reply"].lower()
+        assert "persists" in swap.json()["reply"].lower() or "still" in swap.json()["reply"].lower()
+
+        part = client.post(
+            "/api/act",
+            json={"case_id": "starts-then-dies", "step": "fuel filter", "already": []},
+        )
+        assert part.status_code == 200, part.text
+        assert part.json()["solved"] is False
+        assert "part" in part.json()["reply"].lower()
 
         foul = client.post(
             "/api/act",

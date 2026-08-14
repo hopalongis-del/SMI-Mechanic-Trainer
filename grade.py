@@ -78,6 +78,49 @@ KNOWN_PARTS = (
 CHECKS_GOOD = "Checks good."
 STILL_BROKEN = "You replaced it. Same problem. Cart is still doing the same thing."
 
+PART_SYSTEMS = {
+    "fuel pump": "fuel",
+    "pump": "fuel",
+    "fuel pickup": "fuel",
+    "pick up": "fuel",
+    "pickup": "fuel",
+    "carb": "fuel",
+    "carburetor": "fuel",
+    "injector": "fuel",
+    "fuel filter": "fuel",
+    "fuel cap": "fuel",
+    "vent": "fuel",
+    "gas": "fuel",
+    "fuel": "fuel",
+    "tank": "fuel",
+    "spark plug": "spark",
+    "plug": "spark",
+    "coil": "spark",
+    "ignition": "spark",
+    "kill switch": "electrical",
+    "battery": "electrical",
+    "cables": "electrical",
+    "starter": "electrical",
+    "isg": "electrical",
+    "solenoid": "electrical",
+    "controller": "electrical",
+    "oil": "oil",
+    "oil filter": "oil",
+    "belt": "belt",
+    "clutch": "belt",
+    "clutches": "belt",
+    "cvt": "cooling",
+    "screen": "cooling",
+    "fins": "cooling",
+    "air filter": "cooling",
+    "tie rod": "steering",
+    "steering": "steering",
+    "engine": "engine",
+    "motor": "engine",
+    "muffler": "exhaust",
+    "exhaust": "exhaust",
+}
+
 
 def normalize(text: str) -> str:
     text = (text or "").lower().replace("/", " ")
@@ -124,6 +167,46 @@ def core_checks(case: dict[str, Any]) -> list[dict[str, Any]]:
     return [item for item in (case.get("checks") or []) if item.get("core")]
 
 
+def problem_systems(case: dict[str, Any]) -> set[str]:
+    return {
+        item.get("system")
+        for item in (case.get("checks") or [])
+        if item.get("system") and (item.get("core") or item.get("fix"))
+    }
+
+
+def step_systems(blob: str) -> set[str]:
+    found: set[str] = set()
+    for part, system in PART_SYSTEMS.items():
+        if contains_alias(blob, part):
+            found.add(system)
+    return found
+
+
+def still_text(case: dict[str, Any]) -> str:
+    return case.get("still") or "Cart is still doing the same thing."
+
+
+def hit_reply(case: dict[str, Any], check: dict[str, Any], already: list[str], solved: bool) -> str:
+    reply = check.get("finding") or check["label"]
+    if solved:
+        return reply
+    extra = check.get("after")
+    if extra:
+        return f"{reply} {extra}"
+    leftover = [item for item in core_checks(case) if item["id"] not in already]
+    if leftover and check.get("core"):
+        return f"{reply} That's only part of the issue."
+    return reply
+
+
+def close_reply(case: dict[str, Any], replacing: bool) -> str:
+    leftover = still_text(case)
+    if replacing:
+        return f"You replaced that. Problem persists. {leftover} You're in the right area though."
+    return f"Checks good. You're in the right area though. {leftover}"
+
+
 def apply_step(
     case: dict[str, Any],
     step: str,
@@ -155,33 +238,41 @@ def apply_step(
         else:
             check = next((item for item in matches if not item.get("fix")), matches[0])
         already.append(check["id"])
+        solved = _solved(case, already)
+        kind = "hit" if solved or check.get("fix") else "partial"
+        if not check.get("fix") and not solved:
+            kind = "partial"
         return {
-            "kind": "hit",
+            "kind": kind,
             "id": check["id"],
             "label": check["label"],
-            "reply": check.get("finding") or check["label"],
+            "reply": hit_reply(case, check, already, solved),
             "core": bool(check.get("core")),
             "fix": bool(check.get("fix")),
             "already": already,
-            "solved": _solved(case, already),
+            "solved": solved,
+            "score": _progress(case, already),
         }
 
+    close = bool(step_systems(blob) & problem_systems(case))
     if replacing:
         return {
             "kind": "persist",
             "id": None,
-            "reply": STILL_BROKEN,
+            "reply": close_reply(case, True) if close else STILL_BROKEN,
             "already": already,
             "solved": False,
+            "score": _progress(case, already),
         }
 
     if is_check(blob):
         return {
             "kind": "ok",
             "id": None,
-            "reply": CHECKS_GOOD,
+            "reply": close_reply(case, False) if close else CHECKS_GOOD,
             "already": already,
             "solved": False,
+            "score": _progress(case, already),
         }
 
     return {
@@ -190,7 +281,16 @@ def apply_step(
         "reply": "Say what you're checking or what you're replacing.",
         "already": already,
         "solved": False,
+        "score": _progress(case, already),
     }
+
+
+def _progress(case: dict[str, Any], already: list[str]) -> int:
+    cores = core_checks(case)
+    if not cores:
+        return 0
+    found = len([item for item in cores if item["id"] in already])
+    return min(100, round(100 * found / len(cores)))
 
 
 def _solved(case: dict[str, Any], already: list[str]) -> bool:
