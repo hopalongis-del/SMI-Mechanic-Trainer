@@ -1,3 +1,5 @@
+import json
+
 from fastapi.testclient import TestClient
 
 import server
@@ -18,24 +20,25 @@ def main() -> None:
         assert len(cases) == 10
         assert "cause" not in cases[0]
         ids = {item["id"] for item in cases}
-        assert "tow-run-carryall" in ids
+        assert "no-start-after-unload" in ids
+        assert all("36V" not in json.dumps(item.get("cart") or {}) for item in cases)
 
-        ticket = client.get("/api/cases/tow-run-carryall")
+        ticket = client.get("/api/cases/no-start-after-unload")
         assert ticket.status_code == 200, ticket.text
         assert "cause" not in ticket.json()
-        assert "Tow" not in ticket.json()["ticket"] or "tow/run" not in ticket.json()["ticket"].lower()
+        assert ticket.json()["cart"]["fuel"] == "Gasoline"
 
         good = client.post(
             "/api/grade",
             json={
                 "trainee": "Smoke",
-                "case_id": "tow-run-carryall",
+                "case_id": "no-start-after-unload",
                 "steps": [
                     "chocked the wheels",
-                    "key on, checked F/R in forward",
-                    "checked tow/run, it was in tow",
-                    "metered the pack, 36V",
-                    "flipped it back to run and it drove",
+                    "key on, pedal in forward",
+                    "checked the kill switch",
+                    "tank was empty so I put gas in it",
+                    "switch on, filled it, it started, test drive",
                 ],
             },
         )
@@ -43,16 +46,17 @@ def main() -> None:
         good_body = good.json()
         assert good_body["result"] == "pass", good_body
         assert good_body["score"] >= 70
-        assert "Tow/run" in good_body["cause"]
+        assert "gas" in good_body["cause"].lower()
 
         bad = client.post(
             "/api/grade",
             json={
                 "trainee": "Smoke",
-                "case_id": "tow-run-carryall",
+                "case_id": "no-start-after-unload",
                 "steps": [
-                    "replace the controller",
-                    "order a new solenoid",
+                    "replace the engine",
+                    "new carburetor",
+                    "meter the pack 36 volt",
                 ],
             },
         )

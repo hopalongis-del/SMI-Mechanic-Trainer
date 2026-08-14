@@ -30,7 +30,8 @@ function renderJob(item) {
   const cart = item.cart;
   $("job-cart").innerHTML = [
     ["Type", `${cart.category} · ${cart.manufacturer} ${cart.model}`],
-    ["Year / volts", `${cart.year} · ${cart.voltage}`],
+    ["Year / fuel", `${cart.year} · ${cart.fuel || cart.voltage || "Gasoline"}`],
+    ["Engine", cart.engine || "Gas"],
     ["Top", cart.top],
     ["Notes", cart.notes],
   ]

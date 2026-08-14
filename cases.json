@@ -1,9 +1,10 @@
 {
-  "version": 1,
+  "version": 2,
   "product": "SMI Mechanic Trainer",
+  "notes": "Entire SMIP event fleet is gasoline. No electric-pack cases.",
   "cases": [
     {
-      "id": "tow-run-carryall",
+      "id": "no-start-after-unload",
       "title": "Dead after the trailer",
       "cart": {
         "example_id": "2000",
@@ -11,14 +12,15 @@
         "manufacturer": "Club Car",
         "model": "Carryall 1",
         "year": 1998,
-        "voltage": "36V series",
+        "fuel": "Gasoline",
+        "engine": "Gas, pedal-start",
         "top": "No top",
         "color": "Red",
-        "notes": "Older Club Car still on the event pool. Just came off an enclosed Trailer Transit load."
+        "notes": "Older Club Car utility. Just came off an enclosed Trailer Transit load."
       },
       "setting": "Richmond compound. Morning after unload.",
-      "ticket": "Won't move. Key on. Nothing. No click, no solenoid, no dash life.",
-      "cause": "Tow/run (or run/tow) switch was left in TOW after the trailer ride. Cart is electrically dead on purpose.",
+      "ticket": "Won't start. Key on. They mashed the pedal. Nothing useful. Tank looks low.",
+      "cause": "It sat through the haul with almost no gas, and the kill / run switch was left off after unload. Fill it, kill switch on, then it fires. Not an engine.",
       "pass_score": 70,
       "checks": [
         {
@@ -29,378 +31,491 @@
           "points": 8
         },
         {
-          "id": "tow-run",
+          "id": "kill-switch",
           "category": "diagnosis",
-          "label": "Check the tow/run switch",
-          "aliases": ["tow/run", "tow run", "run/tow", "run tow", "tow switch", "run switch", "storage switch"],
-          "points": 35
+          "label": "Check the kill / run / neutral lockout switch",
+          "aliases": ["kill switch", "run switch", "neutral", "lockout", "on off switch under"],
+          "points": 22
         },
         {
-          "id": "key-fnr",
+          "id": "fuel-level",
           "category": "diagnosis",
-          "label": "Confirm key on and F/R in a drive position",
-          "aliases": ["key on", "forward reverse", "f/r", "fnr", "direction switch", "in forward"],
+          "label": "Check the gas",
+          "aliases": ["gas", "fuel", "empty tank", "low fuel", "add fuel", "fill it"],
+          "points": 28
+        },
+        {
+          "id": "key-pedal",
+          "category": "diagnosis",
+          "label": "Confirm key on and pedal / FNR in a start position",
+          "aliases": ["key on", "pedal", "forward", "fnr", "in gear"],
           "points": 12
         },
         {
-          "id": "pack-voltage",
-          "category": "diagnosis",
-          "label": "Meter the pack before throwing parts",
-          "aliases": ["meter the pack", "pack voltage", "battery voltage", "voltmeter", "multimeter", "36 volt", "36v"],
-          "points": 20
-        },
-        {
-          "id": "fix-tow",
+          "id": "fix-run",
           "category": "fix",
-          "label": "Flip tow/run back to RUN and retest",
-          "aliases": ["put it in run", "switch to run", "flip to run", "set to run", "back to run"],
-          "points": 25
+          "label": "Put gas in it, kill switch on, restart and test drive",
+          "aliases": ["filled", "put gas", "add gas", "switch on", "it started", "test drive"],
+          "points": 20
         }
       ],
       "forbidden": [
         {
-          "id": "throw-controller",
-          "label": "Replacing the controller first",
-          "aliases": ["replace the controller", "new controller", "swap the controller", "order a controller"],
+          "id": "throw-engine",
+          "label": "Calling for an engine or carb first",
+          "aliases": ["replace the engine", "new engine", "rebuild the carb", "new carburetor"],
           "penalty": 25
         },
         {
-          "id": "throw-solenoid-first",
-          "label": "Replacing the solenoid with no voltage check",
-          "aliases": ["replace the solenoid", "new solenoid", "swap the solenoid"],
-          "penalty": 15
-        }
-      ]
-    },
-    {
-      "id": "click-no-go-ds",
-      "title": "One click, then nothing",
-      "cart": {
-        "example_id": "4P-CC",
-        "category": "4P",
-        "manufacturer": "Club Car",
-        "model": "DS",
-        "year": 2004,
-        "voltage": "36V series",
-        "top": "Flat top",
-        "color": "White",
-        "notes": "Common 4-passenger Club Car still in the rental mix."
-      },
-      "setting": "Charlotte shop. Customer cart from last weekend.",
-      "ticket": "Key on, drop it in forward, you get one solid click. Then nothing. Wheels don't turn.",
-      "cause": "Solenoid is clicking but the contacts are burned. Pack is good. Cart needs a solenoid, not a controller.",
-      "pass_score": 70,
-      "checks": [
-        {
-          "id": "safety-key",
-          "category": "safety",
-          "label": "Key off / tow before pulling seat or cables",
-          "aliases": ["key off", "key out", "tow/run", "disconnect", "pull the negative"],
-          "points": 8
-        },
-        {
-          "id": "hear-click",
-          "category": "diagnosis",
-          "label": "Confirm the solenoid click",
-          "aliases": ["solenoid click", "one click", "hear the click", "clicks once"],
-          "points": 12
-        },
-        {
-          "id": "pack-rest",
-          "category": "diagnosis",
-          "label": "Check pack voltage at rest",
-          "aliases": ["pack voltage", "battery voltage", "meter the pack", "36 volt", "voltmeter"],
-          "points": 15
-        },
-        {
-          "id": "pack-load",
-          "category": "diagnosis",
-          "label": "Load-test the pack or check voltage while requesting go",
-          "aliases": ["load test", "voltage under load", "drops under load", "while it's clicking", "during the click"],
-          "points": 20
-        },
-        {
-          "id": "solenoid-out",
-          "category": "diagnosis",
-          "label": "Check voltage in vs out of the solenoid",
-          "aliases": ["solenoid in and out", "both big posts", "large terminals", "solenoid contacts", "voltage out of the solenoid"],
-          "points": 20
-        },
-        {
-          "id": "fix-solenoid",
-          "category": "fix",
-          "label": "Replace the solenoid and retest",
-          "aliases": ["replace the solenoid", "new solenoid", "swap the solenoid", "solenoid is bad"],
-          "points": 25
-        }
-      ],
-      "forbidden": [
-        {
-          "id": "controller-first",
-          "label": "Blaming the controller with a click and no solenoid test",
-          "aliases": ["replace the controller", "bad controller", "new controller"],
-          "penalty": 25
-        }
-      ]
-    },
-    {
-      "id": "weak-battery-6p",
-      "title": "Dies on the way to the suites",
-      "cart": {
-        "example_id": "6P-EZ",
-        "category": "6P",
-        "manufacturer": "EZ-GO",
-        "model": "6-passenger stretch",
-        "year": 2018,
-        "voltage": "48V",
-        "top": "Flat top",
-        "color": "White",
-        "notes": "Heavy 6-pass. These get cooked on long suite runs."
-      },
-      "setting": "Infield. Hospitality wants it now.",
-      "ticket": "Runs around the compound fine. Halfway up to the suites it crawls, then cuts out. After it sits it comes back.",
-      "cause": "One weak battery in the 48V string. Resting voltage looks almost normal. Under load that cell collapses.",
-      "pass_score": 70,
-      "checks": [
-        {
-          "id": "repro",
-          "category": "diagnosis",
-          "label": "Try to reproduce under load, not just in the bay",
-          "aliases": ["test drive", "under load", "hill", "recreate", "drive it"],
-          "points": 12
-        },
-        {
-          "id": "pack-rest",
-          "category": "diagnosis",
-          "label": "Meter the full pack at rest",
-          "aliases": ["pack voltage", "48 volt", "48v", "meter the pack", "total voltage"],
-          "points": 12
-        },
-        {
-          "id": "each-battery",
-          "category": "diagnosis",
-          "label": "Meter each battery, not just the pack",
-          "aliases": ["each battery", "every battery", "individual batteries", "per battery", "battery by battery", "one battery"],
-          "points": 30
-        },
-        {
-          "id": "load-or-hydrometer",
-          "category": "diagnosis",
-          "label": "Load-test or watch voltage while it is working",
-          "aliases": ["load test", "under load", "while driving", "hydrometer", "specific gravity"],
-          "points": 16
-        },
-        {
-          "id": "fix-battery",
-          "category": "fix",
-          "label": "Replace the weak battery (or the pair if that's shop policy) and retest the pack",
-          "aliases": ["replace the weak battery", "bad battery", "replace that battery", "swap the low battery", "replace the battery"],
-          "points": 20
-        }
-      ],
-      "forbidden": [
-        {
-          "id": "whole-pack-blind",
-          "label": "Replacing the whole pack with no individual readings",
-          "aliases": ["replace the whole pack", "new set of batteries", "replace all batteries"],
-          "penalty": 15
-        },
-        {
-          "id": "controller",
-          "label": "Calling it a controller because it cuts out",
-          "aliases": ["replace the controller", "bad controller"],
+          "id": "electric-pack",
+          "label": "Treating it like an electric pack cart",
+          "aliases": ["meter the pack", "36 volt", "48 volt", "solenoid click", "tow/run"],
           "penalty": 20
         }
       ]
     },
     {
-      "id": "charger-4pf",
-      "title": "Plugged in all night, still dead",
+      "id": "crank-no-spark",
+      "title": "Cranks, never fires",
+      "cart": {
+        "example_id": "4081",
+        "category": "4P",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 2002,
+        "fuel": "Gasoline",
+        "engine": "FE350-style gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Common 4-passenger Club Car. Same family as the ones with oil-leak writeups."
+      },
+      "setting": "Charlotte shop. Came back from last weekend.",
+      "ticket": "Starter spins it. It never pops. Smells like gas. They've been hitting it and hitting it.",
+      "cause": "Fouled spark plug. They flooded it. Pull the plug, read it, put a new one in, don't keep cranking.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "safety",
+          "category": "safety",
+          "label": "Key off and pull the plug wire before you work the plug",
+          "aliases": ["key off", "plug wire", "spark plug wire", "disconnect the plug"],
+          "points": 10
+        },
+        {
+          "id": "fuel-present",
+          "category": "diagnosis",
+          "label": "Confirm it has gas and is actually cranking",
+          "aliases": ["has gas", "fuel", "it cranks", "starter spins", "flooded"],
+          "points": 12
+        },
+        {
+          "id": "spark-check",
+          "category": "diagnosis",
+          "label": "Check for spark",
+          "aliases": ["check for spark", "spark test", "no spark", "inline spark", "plug tester"],
+          "points": 22
+        },
+        {
+          "id": "read-plug",
+          "category": "diagnosis",
+          "label": "Pull and read the spark plug",
+          "aliases": ["spark plug", "pull the plug", "fouled plug", "wet plug", "black plug"],
+          "points": 22
+        },
+        {
+          "id": "fix-plug",
+          "category": "fix",
+          "label": "Replace the plug and restart without flooding it again",
+          "aliases": ["new plug", "replace the plug", "replace spark plug", "it fired", "it started"],
+          "points": 24
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "keep-cranking",
+          "label": "Keep cranking a flooded cart",
+          "aliases": ["keep cranking", "hit it again", "crank it more"],
+          "penalty": 15
+        },
+        {
+          "id": "new-engine",
+          "label": "Calling the engine dead because it won't pop",
+          "aliases": ["replace the engine", "engine is seized", "new motor"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "starts-then-dies",
+      "title": "Starts, then dies on the way out",
       "cart": {
         "example_id": "4PF-EZ",
         "category": "4PF",
         "manufacturer": "EZ-GO",
         "model": "4-passenger flip seat",
         "year": 2019,
-        "voltage": "48V",
+        "fuel": "Gasoline",
+        "engine": "Gas / EFI or carb as equipped",
         "top": "Folding top",
         "color": "White",
-        "notes": "Flip seat 4PF. Lived on the charger rail at the shop."
+        "notes": "Flip-seat 4PF. Sat a couple weeks after the last event."
       },
-      "setting": "SMIP shop, Monday morning.",
-      "ticket": "Sat on the charger all night. Still dead. Charger was humming at some point.",
-      "cause": "Pack has an open/dead battery so the onboard charger quit. The receptacle and AC feed were fine.",
+      "setting": "SMIP shop, Monday. They need it for a local pull.",
+      "ticket": "Fires right up. Ten seconds later it's dead. They can restart it. Same thing every time.",
+      "cause": "Stale ethanol gas and a clogged fuel filter. Bowl/injector is starving once the prime is gone. Fresh fuel and a filter, then it holds.",
       "pass_score": 70,
       "checks": [
         {
-          "id": "confirm-dead",
+          "id": "repro",
           "category": "diagnosis",
-          "label": "Meter the pack before blaming the charger",
-          "aliases": ["meter the pack", "pack voltage", "battery voltage", "how many volts"],
-          "points": 18
+          "label": "Watch it start and die instead of guessing",
+          "aliases": ["starts then dies", "dies after", "ran 10", "reproduce", "same thing"],
+          "points": 10
         },
         {
-          "id": "charger-ac",
+          "id": "fuel-age",
           "category": "diagnosis",
-          "label": "Confirm the charger actually has AC / a known good outlet",
-          "aliases": ["outlet", "extension cord", "ac voltage", "wall power", "charger plugged", "known good charger"],
-          "points": 12
+          "label": "Ask how old the gas is / smell it / check the tank",
+          "aliases": ["stale", "old gas", "ethanol", "varnish", "how old", "smells like"],
+          "points": 20
         },
         {
-          "id": "receptacle",
+          "id": "fuel-filter",
           "category": "diagnosis",
-          "label": "Check the charge receptacle and fuse",
-          "aliases": ["receptacle", "charge port", "charger plug", "10 amp", "10a fuse", "charger fuse"],
-          "points": 15
-        },
-        {
-          "id": "each-battery",
-          "category": "diagnosis",
-          "label": "Check each battery in the string",
-          "aliases": ["each battery", "every battery", "individual", "open battery", "one battery is"],
+          "label": "Check the fuel filter / fuel getting to the carb or injector",
+          "aliases": ["fuel filter", "clogged filter", "no fuel", "fuel line", "injector screen"],
           "points": 25
         },
         {
-          "id": "fix",
+          "id": "vent-cap",
+          "category": "diagnosis",
+          "label": "Check the fuel cap vent if it dies after a short run",
+          "aliases": ["fuel cap", "vent", "vacuum", "cap vent"],
+          "points": 10
+        },
+        {
+          "id": "fix-fuel",
           "category": "fix",
-          "label": "Replace the open/dead battery and verify it takes a charge",
-          "aliases": ["replace the battery", "bad battery", "open battery", "put it back on charge", "takes a charge"],
-          "points": 20
+          "label": "Fresh gas and a new filter, then a longer test drive",
+          "aliases": ["fresh gas", "new filter", "replace the filter", "drain the tank", "test drive"],
+          "points": 25
         }
       ],
       "forbidden": [
         {
-          "id": "new-charger-only",
-          "label": "Ordering a new charger with no pack readings",
-          "aliases": ["replace the charger", "new charger", "charger is bad"],
+          "id": "new-carb-first",
+          "label": "Replacing the carb with no fuel-side check",
+          "aliases": ["replace the carb", "new carburetor", "rebuild the carb"],
           "penalty": 20
         }
       ]
     },
     {
-      "id": "valor-no-forward",
-      "title": "Valor only goes backward",
+      "id": "side-gasket-oil",
+      "title": "Oil all over the side",
       "cart": {
-        "example_id": "NP-4PF",
-        "category": "4PF",
-        "manufacturer": "EZ-GO",
-        "model": "Valor",
-        "year": 2023,
-        "voltage": "48V lithium / EX1 as equipped",
-        "top": "Factory top",
-        "color": "White",
-        "notes": "NP / TV compound cart. Drive-on only. Never reverse a Valor onto a trailer."
+        "example_id": "4081",
+        "category": "4P",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 2002,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Real fleet writeup: oil leak side gasket. Same leak showed up on EZ-GO units at Darlington."
       },
-      "setting": "Iowa. Brian's crew. After a track move.",
-      "ticket": "Reverse works. Forward does nothing. They have been trying to back it onto the trailer.",
-      "cause": "Forward side of the FNR / direction circuit is out. Reverse path is fine. Also: Valor gets driven on, never backed on. That is ops, not the electrical fix.",
-      "pass_score": 68,
+      "setting": "After TSS. Double Bogey hauled it. Sitting in the out-of-service row.",
+      "ticket": "Left side of the engine is wet. Drip under it on the trailer. They still drove it in.",
+      "cause": "Side case gasket. Check oil first so they didn't already kill it, then gasket — not a new engine unless it's empty and knocking.",
+      "pass_score": 70,
       "checks": [
         {
-          "id": "fnr",
+          "id": "oil-level",
+          "category": "safety",
+          "label": "Check the oil level before you run it again",
+          "aliases": ["oil level", "dipstick", "check the oil", "low oil", "no oil"],
+          "points": 25
+        },
+        {
+          "id": "find-leak",
           "category": "diagnosis",
-          "label": "Check the FNR / direction selector",
-          "aliases": ["fnr", "f/r", "forward reverse", "direction switch", "gear switch", "selector"],
+          "label": "Find where it's coming from (side gasket vs drain vs valve cover)",
+          "aliases": ["side gasket", "case gasket", "valve cover", "drain plug", "where it's leaking"],
           "points": 22
         },
         {
-          "id": "both-directions",
-          "category": "diagnosis",
-          "label": "Confirm reverse works and forward does not",
-          "aliases": ["reverse works", "no forward", "only reverse", "won't go forward"],
-          "points": 12
+          "id": "dont-run-dry",
+          "category": "safety",
+          "label": "Do not send it back out low on oil",
+          "aliases": ["don't run it", "park it", "out of service", "add oil", "not going back out"],
+          "points": 15
         },
         {
-          "id": "forward-solenoid",
-          "category": "diagnosis",
-          "label": "Check forward solenoid / forward output, not the whole controller first",
-          "aliases": ["forward solenoid", "direction solenoid", "forward circuit", "forward contactor"],
-          "points": 20
-        },
-        {
-          "id": "valor-drive-on",
-          "category": "ops",
-          "label": "Do not reverse a Valor onto a trailer (drive it on)",
-          "aliases": ["drive on", "driven on", "don't reverse", "do not reverse", "never reverse", "don't back it"],
-          "points": 18
-        },
-        {
-          "id": "fix",
+          "id": "fix-gasket",
           "category": "fix",
-          "label": "Repair FNR / forward circuit and retest both directions",
-          "aliases": ["replace fnr", "replace the switch", "forward solenoid", "repair the forward", "new fnr"],
-          "points": 18
+          "label": "Replace the side gasket, refill oil, write the date on the tank",
+          "aliases": ["replace the gasket", "new gasket", "side gasket", "refill the oil", "date on the tank"],
+          "points": 28
         }
       ],
       "forbidden": [
         {
-          "id": "back-it-on",
-          "label": "Telling them to keep backing the Valor onto the trailer",
-          "aliases": ["back it on", "reverse it on", "reverse onto the trailer"],
+          "id": "keep-driving",
+          "label": "Sending it to the next event leaking",
+          "aliases": ["it'll be fine", "just add oil and send it", "send it anyway"],
           "penalty": 25
         }
       ]
     },
     {
-      "id": "rain-ada",
-      "title": "ADA cart died after the rain",
+      "id": "engine-noise",
+      "title": "It sounds like rocks in a can",
       "cart": {
-        "example_id": "ADA-CC",
-        "category": "ADA",
+        "example_id": "4068",
+        "category": "4P",
         "manufacturer": "Club Car",
-        "model": "Accessible / ambulance-style",
-        "year": 2016,
-        "voltage": "48V",
-        "top": "Bubble top",
-        "color": "White",
-        "notes": "Bubble top. Top deck only on a Sun Valley. Cannot live on an enclosed trailer."
+        "model": "DS",
+        "year": 1998,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Real note from Kansas drop-off: internal engine noise."
       },
-      "setting": "Overnight rain on the Richmond lot. Cart was parked outside.",
-      "ticket": "Worked yesterday. This morning key on, click, then dead. Seat and floor are wet.",
-      "cause": "Water in the solenoid / battery connections. Dry, clean, dielectric, then retest. Not a new controller.",
+      "setting": "Kansas. They dropped it at the track and called it in.",
+      "ticket": "Runs, but there's a knock / rattle from inside the motor. Got worse on the way across the lot.",
+      "cause": "Internal engine noise. Check oil, shut it down, don't keep driving it. This is a park-it and tear-down, not a carb clean.",
       "pass_score": 70,
       "checks": [
         {
-          "id": "safety",
+          "id": "oil-first",
           "category": "safety",
-          "label": "Key off before pulling the seat on a wet cart",
-          "aliases": ["key off", "key out", "disconnect", "tow/run"],
-          "points": 10
-        },
-        {
-          "id": "look-wet",
-          "category": "diagnosis",
-          "label": "Look for water on solenoid, cables, and connections",
-          "aliases": ["wet", "water", "moisture", "rained", "soaked", "corrosion"],
+          "label": "Check oil immediately",
+          "aliases": ["check the oil", "oil level", "dipstick", "no oil", "low oil"],
           "points": 22
         },
         {
-          "id": "solenoid-pack",
+          "id": "shut-down",
+          "category": "safety",
+          "label": "Shut it off. Don't keep driving a knocking motor",
+          "aliases": ["shut it off", "don't drive", "park it", "kill it", "stop running"],
+          "points": 25
+        },
+        {
+          "id": "where-noise",
           "category": "diagnosis",
-          "label": "Check pack voltage and solenoid with it dried off",
-          "aliases": ["pack voltage", "solenoid", "meter", "dry it", "dry off", "clean the"],
-          "points": 20
+          "label": "Figure out if it's engine, clutch, or exhaust heat shield",
+          "aliases": ["knock", "bottom end", "rod", "clutch", "heat shield", "exhaust", "internal"],
+          "points": 18
         },
         {
-          "id": "fix-dry",
-          "category": "fix",
-          "label": "Dry and protect connections, then retest",
-          "aliases": ["dry", "dielectric", "clean the terminals", "wd-40", "protect the connections"],
-          "points": 20
-        },
-        {
-          "id": "ada-top-deck",
+          "id": "oos",
           "category": "ops",
-          "label": "ADA / bubble top stays on the top deck of an open trailer",
-          "aliases": ["top deck", "bubble top", "can't go enclosed", "not in the enclosed"],
-          "points": 12
+          "label": "Tag it out of service and write the work order",
+          "aliases": ["out of service", "work order", "tag it", "don't send it"],
+          "points": 20
         }
       ],
       "forbidden": [
         {
-          "id": "controller",
-          "label": "Replacing the controller because it got rained on",
-          "aliases": ["replace the controller", "new controller"],
+          "id": "carb-it",
+          "label": "Cleaning the carb on a knock",
+          "aliases": ["clean the carb", "replace the carb", "it's just the belt"],
+          "penalty": 20
+        },
+        {
+          "id": "keep-using",
+          "label": "Leaving it in the rental row",
+          "aliases": ["leave it in service", "customer can still use it"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "valor-heat-die",
+      "title": "Valor dies after it gets hot",
+      "cart": {
+        "example_id": "NP-4PF",
+        "category": "4PF",
+        "manufacturer": "EZ-GO",
+        "model": "Valor EX1",
+        "year": 2023,
+        "fuel": "Gasoline",
+        "engine": "EX1 150cc EFI, air-cooled, CVT, ISG",
+        "top": "Factory top",
+        "color": "White",
+        "notes": "NP / TV compound. EX1 hates heat, dust, and idle. Drive-on only — never reverse a Valor onto a trailer."
+      },
+      "setting": "Iowa infield. Been running suite shuttles in the sun.",
+      "ticket": "Fine for 20 minutes. Then it loses power and dies. After it sits it restarts. Driver-side rear of the engine is packed with dirt.",
+      "cause": "Clogged CVT / cooling filter and dirty cooling fins. Heat soak. Clean the fins and the driver's-side screen. Not a new engine.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "hot-repro",
+          "category": "diagnosis",
+          "label": "Note that it only dies hot, then comes back",
+          "aliases": ["dies hot", "after it sits", "heat", "loses power", "20 minutes"],
+          "points": 12
+        },
+        {
+          "id": "cvt-filter",
+          "category": "diagnosis",
+          "label": "Check the driver's-side CVT / cooling filter",
+          "aliases": ["cvt filter", "cvt screen", "driver side", "cooling filter", "mesh"],
+          "points": 25
+        },
+        {
+          "id": "fins",
+          "category": "diagnosis",
+          "label": "Blow out the cooling fins",
+          "aliases": ["cooling fins", "blow out", "compressed air", "fins are packed"],
+          "points": 20
+        },
+        {
+          "id": "oil-air",
+          "category": "diagnosis",
+          "label": "Check oil level and the air filter",
+          "aliases": ["oil level", "air filter", "oil"],
+          "points": 12
+        },
+        {
+          "id": "fix-clean",
+          "category": "fix",
+          "label": "Clean the cooling path and test it hot again",
+          "aliases": ["clean", "blow it out", "test it hot", "ran it again"],
+          "points": 15
+        },
+        {
+          "id": "valor-drive-on",
+          "category": "ops",
+          "label": "Valor gets driven on a trailer, never reversed on",
+          "aliases": ["drive on", "don't reverse", "never reverse", "driven on"],
+          "points": 8
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-engine",
+          "label": "Replacing the EX1 because it heat-soaked",
+          "aliases": ["replace the engine", "new engine", "engine is junk"],
+          "penalty": 25
+        }
+      ]
+    },
+    {
+      "id": "valor-isg",
+      "title": "Valor won't crank",
+      "cart": {
+        "example_id": "NP-UT",
+        "category": "UT",
+        "manufacturer": "EZ-GO",
+        "model": "Valor EX1",
+        "year": 2022,
+        "fuel": "Gasoline",
+        "engine": "EX1 with Integrated Starter Generator",
+        "top": "No top",
+        "color": "White",
+        "notes": "EX1 uses an ISG, not a regular starter. Early ISG controllers die from heat and vibration."
+      },
+      "setting": "Compound, late afternoon. Cart is heat-soaked.",
+      "ticket": "Key on, lights work, no crank. They jumped it off another cart and still nothing.",
+      "cause": "ISG controller. 12V battery and connections were fine. Updated controller (10017118) is the fleet part, not a starter motor.",
+      "pass_score": 68,
+      "checks": [
+        {
+          "id": "12v",
+          "category": "diagnosis",
+          "label": "Meter the 12V battery and clean the cables first",
+          "aliases": ["12 volt", "12v", "battery voltage", "battery cables", "clean the terminals"],
+          "points": 20
+        },
+        {
+          "id": "not-starter",
+          "category": "diagnosis",
+          "label": "This cart has an ISG, not a regular starter",
+          "aliases": ["isg", "integrated starter", "starter generator", "not a starter"],
+          "points": 25
+        },
+        {
+          "id": "clicks",
+          "category": "diagnosis",
+          "label": "Note key-on behavior (lights vs crank)",
+          "aliases": ["lights work", "no crank", "key on", "won't crank"],
+          "points": 10
+        },
+        {
+          "id": "fix-isg",
+          "category": "fix",
+          "label": "Replace the ISG controller (updated heat-sink unit) and retest",
+          "aliases": ["isg controller", "10017118", "replace the isg", "new controller"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "car-starter",
+          "label": "Ordering a conventional starter",
+          "aliases": ["new starter motor", "replace the starter", "chevy starter"],
+          "penalty": 20
+        }
+      ]
+    },
+    {
+      "id": "belt-slip-6p",
+      "title": "Engine screams, cart crawls",
+      "cart": {
+        "example_id": "6P-EZ",
+        "category": "6P",
+        "manufacturer": "EZ-GO",
+        "model": "6-passenger stretch",
+        "year": 2018,
+        "fuel": "Gasoline",
+        "engine": "Gas with CVT / drive clutch",
+        "top": "Flat top",
+        "color": "White",
+        "notes": "Heavy 6-pass. These cook belts on the suite hill."
+      },
+      "setting": "Infield. Hospitality wants it now.",
+      "ticket": "Sounds fine in the compound. Halfway up to the suites the motor revs and the cart barely moves. Smells like belt.",
+      "cause": "Glazed / worn drive belt (or clutch). Engine is fine. Replace the belt, inspect drive/driven clutch, test the hill again.",
+      "pass_score": 70,
+      "checks": [
+        {
+          "id": "repro",
+          "category": "diagnosis",
+          "label": "Reproduce under load, not just in the bay",
+          "aliases": ["test drive", "hill", "under load", "suites", "rev"],
+          "points": 12
+        },
+        {
+          "id": "belt",
+          "category": "diagnosis",
+          "label": "Inspect the drive belt",
+          "aliases": ["drive belt", "belt is glazed", "worn belt", "cvt belt", "smells like belt"],
+          "points": 28
+        },
+        {
+          "id": "clutch",
+          "category": "diagnosis",
+          "label": "Check drive and driven clutch",
+          "aliases": ["drive clutch", "driven clutch", "clutches", "primary clutch", "secondary"],
+          "points": 20
+        },
+        {
+          "id": "fix-belt",
+          "category": "fix",
+          "label": "Replace the belt and retest the hill",
+          "aliases": ["replace the belt", "new belt", "put a belt on", "test the hill"],
+          "points": 25
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-engine",
+          "label": "Blaming the motor because it revs",
+          "aliases": ["replace the engine", "motor is weak", "no compression"],
           "penalty": 25
         }
       ]
@@ -412,16 +527,17 @@
         "example_id": "4P-EZ",
         "category": "4P",
         "manufacturer": "EZ-GO",
-        "model": "4-passenger",
+        "model": "4-passenger gas",
         "year": 2017,
-        "voltage": "48V",
+        "fuel": "Gasoline",
+        "engine": "Gas",
         "top": "No top",
         "color": "White",
         "notes": "Came off a Sun Valley at Richmond. Strap marks on the cowl."
       },
       "setting": "Just offloaded. They drove it 40 feet and parked it.",
-      "ticket": "Steers like it wants the ditch. Pulls hard left. Motor sounds fine.",
-      "cause": "Bent tie rod / steering from the trailer strap or a hit during unload. This is a mechanical alignment problem.",
+      "ticket": "Steers like it wants the ditch. Pulls hard left. Engine sounds fine.",
+      "cause": "Bent tie rod / steering from the strap or a hit during unload. Mechanical. Don't touch the motor.",
       "pass_score": 70,
       "checks": [
         {
@@ -434,22 +550,22 @@
         {
           "id": "visual-steer",
           "category": "diagnosis",
-          "label": "Inspect tie rods, steering box/rack, A-arms, and rims",
+          "label": "Inspect tie rods, steering, A-arms, and rims",
           "aliases": ["tie rod", "steering", "bent", "spindle", "a-arm", "rim", "alignment"],
           "points": 30
         },
         {
-          "id": "not-electrical",
+          "id": "not-engine",
           "category": "diagnosis",
-          "label": "Don't treat a pull as a controller problem",
-          "aliases": ["not electrical", "not the controller", "mechanical", "frame", "under the cart"],
+          "label": "Don't treat a pull as an engine problem",
+          "aliases": ["not the engine", "mechanical", "under the cart", "steering"],
           "points": 15
         },
         {
           "id": "fix-rod",
           "category": "fix",
-          "label": "Replace/straighten the bent steering part and test again",
-          "aliases": ["replace the tie rod", "new tie rod", "straighten", "fix the steering", "alignment"],
+          "label": "Replace/straighten the bent part and test again",
+          "aliases": ["replace the tie rod", "new tie rod", "straighten", "fix the steering"],
           "points": 25
         },
         {
@@ -462,187 +578,74 @@
       ],
       "forbidden": [
         {
-          "id": "controller",
-          "label": "Replacing the controller for a steering pull",
-          "aliases": ["replace the controller", "bad controller", "motor is bad"],
+          "id": "engine",
+          "label": "Tearing into the engine for a steering pull",
+          "aliases": ["replace the engine", "bad motor", "alignment in the carb"],
           "penalty": 30
         }
       ]
     },
     {
-      "id": "welded-solenoid",
-      "title": "It won't shut off",
-      "cart": {
-        "example_id": "UT-EZ",
-        "category": "UT",
-        "manufacturer": "EZ-GO",
-        "model": "Utility 800",
-        "year": 2015,
-        "voltage": "48V",
-        "top": "No top",
-        "color": "Tan",
-        "notes": "Shop utility. They use it to tug and jump other carts."
-      },
-      "setting": "Compound. End of the day.",
-      "ticket": "Key off and it still wants to go. Or it lurches when you drop it in gear. They've been hitting the tow switch to kill it.",
-      "cause": "Solenoid contacts welded closed. Key can't break the circuit. Replace the solenoid. Check why it was cooking (jumper cables on the big posts, sticking FNR).",
-      "pass_score": 70,
-      "checks": [
-        {
-          "id": "safety",
-          "category": "safety",
-          "label": "Tow/run or disconnect the pack before you get under it",
-          "aliases": ["tow/run", "tow run", "disconnect", "pull the negative", "chock"],
-          "points": 15
-        },
-        {
-          "id": "key-off-still",
-          "category": "diagnosis",
-          "label": "Confirm it still has go with the key off",
-          "aliases": ["key off", "won't shut off", "still runs", "lurches", "keeps going"],
-          "points": 15
-        },
-        {
-          "id": "welded",
-          "category": "diagnosis",
-          "label": "Check for a welded solenoid (continuity / voltage on the big posts with key off)",
-          "aliases": ["welded", "stuck solenoid", "solenoid stuck", "contacts welded", "big posts"],
-          "points": 25
-        },
-        {
-          "id": "why",
-          "category": "diagnosis",
-          "label": "Ask why it welded (jumping, stuck pedal, FNR)",
-          "aliases": ["jumper", "jumping", "why it welded", "stuck pedal", "fnr"],
-          "points": 10
-        },
-        {
-          "id": "fix",
-          "category": "fix",
-          "label": "Replace the solenoid and retest key off",
-          "aliases": ["replace the solenoid", "new solenoid", "swap the solenoid"],
-          "points": 25
-        }
-      ],
-      "forbidden": [
-        {
-          "id": "leave-tow",
-          "label": "Sending it back out with tow/run as the shutoff",
-          "aliases": ["just use the tow switch", "leave it in tow", "tell them to use tow"],
-          "penalty": 20
-        }
-      ]
-    },
-    {
-      "id": "loose-cable",
-      "title": "Works, then it's dead, then it works",
-      "cart": {
-        "example_id": "2003",
-        "category": "UT",
-        "manufacturer": "Club Car",
-        "model": "Carryall 1",
-        "year": 1998,
-        "voltage": "36V series",
-        "top": "No top",
-        "color": "Red",
-        "notes": "Old Club Car. Been around the lot all week."
-      },
-      "setting": "Live event. Radio call from the suite road.",
-      "ticket": "It was fine. Then it died. They hit a bump and it came back. Now it's dead again.",
-      "cause": "Loose or green main battery cable. Vibration opens the circuit. Tighten, clean, replace the cable if the ring is shot.",
-      "pass_score": 70,
-      "checks": [
-        {
-          "id": "wiggle",
-          "category": "diagnosis",
-          "label": "Wiggle test the main cables while watching voltage / life",
-          "aliases": ["wiggle", "wiggle test", "move the cables", "pull on the cable", "loose cable"],
-          "points": 25
-        },
-        {
-          "id": "visual",
-          "category": "diagnosis",
-          "label": "Look for green corrosion, a stretched ring, or a loose nut",
-          "aliases": ["corrosion", "green", "loose nut", "loose terminal", "stretched ring", "battery cable"],
-          "points": 20
-        },
-        {
-          "id": "meter",
-          "category": "diagnosis",
-          "label": "Meter pack and voltage at the solenoid while someone wiggles the cable",
-          "aliases": ["meter", "voltage", "solenoid", "voltmeter"],
-          "points": 15
-        },
-        {
-          "id": "fix",
-          "category": "fix",
-          "label": "Clean, tighten, or replace the cable and retest over bumps",
-          "aliases": ["tighten", "clean the terminal", "replace the cable", "new cable", "wire brush"],
-          "points": 25
-        }
-      ],
-      "forbidden": [
-        {
-          "id": "controller",
-          "label": "Intermittent bump-to-fix is not a controller",
-          "aliases": ["replace the controller", "bad controller"],
-          "penalty": 25
-        }
-      ]
-    },
-    {
-      "id": "fnr-800",
-      "title": "No reverse on the 800",
+      "id": "low-oil-shutdown",
+      "title": "It shut off and the light's on",
       "cart": {
         "example_id": "UT-800",
         "category": "UT",
         "manufacturer": "EZ-GO",
-        "model": "Utility 800",
-        "year": 2014,
-        "voltage": "48V",
+        "model": "Utility",
+        "year": 2015,
+        "fuel": "Gasoline",
+        "engine": "Gas with low-oil / fuel light",
         "top": "No top",
         "color": "Tan",
-        "notes": "Work cart. They use reverse all day in the trailer alley."
+        "notes": "Shop utility. They've been tugging with it all week."
       },
-      "setting": "Charlotte shop alley, packing a Sun Valley.",
-      "ticket": "Forward is fine. No reverse. They need it to get off the bottom deck.",
-      "cause": "FNR reverse microswitch / reverse cam is shot. Forward circuit is fine. Replace the FNR assembly, don't shotgun the controller.",
+      "setting": "Compound. End of the day.",
+      "ticket": "Died in the alley. Low oil / fuel light is on. They want to jump it and keep going.",
+      "cause": "Low oil, not a dead battery. These engines shut down on purpose. Check oil, find the leak, fill it. Date the tank when you're done.",
       "pass_score": 70,
       "checks": [
         {
-          "id": "confirm",
+          "id": "light",
           "category": "diagnosis",
-          "label": "Confirm forward works and reverse does not",
-          "aliases": ["forward works", "no reverse", "won't reverse", "only forward"],
-          "points": 12
+          "label": "Read the low oil / fuel light instead of ignoring it",
+          "aliases": ["oil light", "fuel light", "low oil", "warning light"],
+          "points": 15
         },
         {
-          "id": "fnr",
-          "category": "diagnosis",
-          "label": "Inspect and test the FNR switch",
-          "aliases": ["fnr", "f/r", "forward reverse switch", "direction switch", "microswitch", "reverse switch"],
-          "points": 30
+          "id": "oil",
+          "category": "safety",
+          "label": "Check the oil before you restart it",
+          "aliases": ["check the oil", "dipstick", "oil level", "no oil"],
+          "points": 28
         },
         {
-          "id": "linkage",
+          "id": "fuel-too",
           "category": "diagnosis",
-          "label": "Check the shifter linkage actually moves the switch into reverse",
-          "aliases": ["linkage", "shifter", "cable", "cam", "not going into reverse"],
+          "label": "Check fuel if the light is shared",
+          "aliases": ["check the fuel", "gas", "empty", "fuel gauge"],
+          "points": 10
+        },
+        {
+          "id": "leak",
+          "category": "diagnosis",
+          "label": "Find why the oil is gone",
+          "aliases": ["leak", "gasket", "drain", "where the oil went"],
           "points": 15
         },
         {
           "id": "fix",
           "category": "fix",
-          "label": "Replace or adjust the FNR and test reverse under the trailer",
-          "aliases": ["replace the fnr", "replace the switch", "new fnr", "adjust the linkage", "reverse works"],
-          "points": 25
+          "label": "Fill with the right oil, fix the leak, write the date on the tank",
+          "aliases": ["add oil", "fill the oil", "5w-30", "date on the tank", "date of service"],
+          "points": 22
         }
       ],
       "forbidden": [
         {
-          "id": "controller",
-          "label": "Controller swap for a one-direction problem",
-          "aliases": ["replace the controller", "new controller"],
+          "id": "jump-it",
+          "label": "Jumping it and sending it back out",
+          "aliases": ["jump it", "just restart it", "keep using it"],
           "penalty": 25
         }
       ]
