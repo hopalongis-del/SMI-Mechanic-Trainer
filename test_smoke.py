@@ -6,6 +6,9 @@ import server
 
 
 def main() -> None:
+    bank = json.loads((server.ROOT / "cases.json").read_text(encoding="utf-8"))
+    assert len(bank["cases"]) == 10
+
     with TestClient(server.app) as client:
         health = client.get("/api/health")
         assert health.status_code == 200, health.text

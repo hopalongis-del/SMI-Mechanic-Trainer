@@ -601,7 +601,7 @@
         "notes": "Shop utility. They've been tugging with it all week."
       },
       "setting": "Compound. End of the day.",
-      "ticket": "Died in the alley. Low oil / fuel light is on. Operator wants it jumped so they can keep using it."
+      "ticket": "Died in the alley. Low oil / fuel light is on. Operator wants it jumped so they can keep using it.",
       "cause": "Low oil, not a dead battery. These engines shut down on purpose. Check oil, find the leak, fill it. Date the tank when you're done.",
       "pass_score": 70,
       "checks": [
