@@ -19,7 +19,7 @@
         "notes": "Older Club Car utility. Just came off an enclosed Trailer Transit load."
       },
       "setting": "Richmond compound. Morning after unload.",
-      "ticket": "Won't start. Key on. They mashed the pedal. Nothing useful. Tank looks low.",
+      "ticket": "Unloaded this morning off the enclosed trailer. Key is on. Pedal goes down and the engine never turns over. Fuel gauge is sitting on empty.",
       "cause": "It sat through the haul with almost no gas, and the kill / run switch was left off after unload. Fill it, kill switch on, then it fires. Not an engine.",
       "pass_score": 70,
       "checks": [
@@ -90,7 +90,7 @@
         "notes": "Common 4-passenger Club Car. Same family as the ones with oil-leak writeups."
       },
       "setting": "Charlotte shop. Came back from last weekend.",
-      "ticket": "Starter spins it. It never pops. Smells like gas. They've been hitting it and hitting it.",
+      "ticket": "Engine cranks but never starts. You can smell raw gas around the carb. Operator has been trying to start it over and over.",
       "cause": "Fouled spark plug. They flooded it. Pull the plug, read it, put a new one in, don't keep cranking.",
       "pass_score": 70,
       "checks": [
@@ -161,7 +161,7 @@
         "notes": "Flip-seat 4PF. Sat a couple weeks after the last event."
       },
       "setting": "SMIP shop, Monday. They need it for a local pull.",
-      "ticket": "Fires right up. Ten seconds later it's dead. They can restart it. Same thing every time.",
+      "ticket": "Starts on the first try, runs about ten seconds, then dies. Restarts every time. Same cycle if you keep doing it.",
       "cause": "Stale ethanol gas and a clogged fuel filter. Bowl/injector is starving once the prime is gone. Fresh fuel and a filter, then it holds.",
       "pass_score": 70,
       "checks": [
@@ -226,7 +226,7 @@
         "notes": "Real fleet writeup: oil leak side gasket. Same leak showed up on EZ-GO units at Darlington."
       },
       "setting": "After TSS. Double Bogey hauled it. Sitting in the out-of-service row.",
-      "ticket": "Left side of the engine is wet. Drip under it on the trailer. They still drove it in.",
+      "ticket": "Oil on the left side of the engine and a drip under the cart on the trailer. They drove it in anyway.",
       "cause": "Side case gasket. Check oil first so they didn't already kill it, then gasket — not a new engine unless it's empty and knocking.",
       "pass_score": 70,
       "checks": [
@@ -284,7 +284,7 @@
         "notes": "Real note from Kansas drop-off: internal engine noise."
       },
       "setting": "Kansas. They dropped it at the track and called it in.",
-      "ticket": "Runs, but there's a knock / rattle from inside the motor. Got worse on the way across the lot.",
+      "ticket": "Cart runs, but there's a knock from inside the engine. It got louder crossing the lot.",
       "cause": "Internal engine noise. Check oil, shut it down, don't keep driving it. This is a park-it and tear-down, not a carb clean.",
       "pass_score": 70,
       "checks": [
@@ -348,7 +348,7 @@
         "notes": "NP / TV compound. EX1 hates heat, dust, and idle. Drive-on only — never reverse a Valor onto a trailer."
       },
       "setting": "Iowa infield. Been running suite shuttles in the sun.",
-      "ticket": "Fine for 20 minutes. Then it loses power and dies. After it sits it restarts. Driver-side rear of the engine is packed with dirt.",
+      "ticket": "Runs about 20 minutes, then loses power and dies. Restarts after it sits. Driver-side rear of the engine is packed with dirt.",
       "cause": "Clogged CVT / cooling filter and dirty cooling fins. Heat soak. Clean the fins and the driver's-side screen. Not a new engine.",
       "pass_score": 70,
       "checks": [
@@ -420,7 +420,7 @@
         "notes": "EX1 uses an ISG, not a regular starter. Early ISG controllers die from heat and vibration."
       },
       "setting": "Compound, late afternoon. Cart is heat-soaked.",
-      "ticket": "Key on, lights work, no crank. They jumped it off another cart and still nothing.",
+      "ticket": "Key on, lights work, engine will not crank. They jumped it off another cart and it still will not crank.",
       "cause": "ISG controller. 12V battery and connections were fine. Updated controller (10017118) is the fleet part, not a starter motor.",
       "pass_score": 68,
       "checks": [
@@ -478,7 +478,7 @@
         "notes": "Heavy 6-pass. These cook belts on the suite hill."
       },
       "setting": "Infield. Hospitality wants it now.",
-      "ticket": "Sounds fine in the compound. Halfway up to the suites the motor revs and the cart barely moves. Smells like belt.",
+      "ticket": "Fine around the compound. Halfway up the suite hill the engine revs and the cart barely moves. You can smell belt.",
       "cause": "Glazed / worn drive belt (or clutch). Engine is fine. Replace the belt, inspect drive/driven clutch, test the hill again.",
       "pass_score": 70,
       "checks": [
@@ -536,7 +536,7 @@
         "notes": "Came off a Sun Valley at Richmond. Strap marks on the cowl."
       },
       "setting": "Just offloaded. They drove it 40 feet and parked it.",
-      "ticket": "Steers like it wants the ditch. Pulls hard left. Engine sounds fine.",
+      "ticket": "Pulls hard left as soon as you start rolling. Engine sounds fine. They only drove it off the trailer about 40 feet.",
       "cause": "Bent tie rod / steering from the strap or a hit during unload. Mechanical. Don't touch the motor.",
       "pass_score": 70,
       "checks": [
@@ -601,7 +601,7 @@
         "notes": "Shop utility. They've been tugging with it all week."
       },
       "setting": "Compound. End of the day.",
-      "ticket": "Died in the alley. Low oil / fuel light is on. They want to jump it and keep going.",
+      "ticket": "Died in the alley. Low oil / fuel light is on. Operator wants it jumped so they can keep using it."
       "cause": "Low oil, not a dead battery. These engines shut down on purpose. Check oil, find the leak, fill it. Date the tank when you're done.",
       "pass_score": 70,
       "checks": [
