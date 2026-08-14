@@ -510,6 +510,485 @@
           "aliases": ["jump it", "just restart it"]
         }
       ]
+    },
+    {
+      "id": "air-filter-dust",
+      "title": "No power after a dusty day",
+      "hint": "It runs. It just can't breathe. Pull the air filter.",
+      "cart": {
+        "example_id": "2076",
+        "category": "UT",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 1998,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Infield utility. Dusty all afternoon."
+      },
+      "setting": "Richmond infield. Wind and dirt.",
+      "ticket": "Runs, but it has no power. They have to floor it to get across the lot. Air box looks filthy.",
+      "cause": "Packed air filter. Clean or replace it. Engine is fine.",
+      "still": "It still runs with no power.",
+      "checks": [
+        {
+          "id": "air-filter",
+          "core": true,
+          "system": "cooling",
+          "label": "Check the air filter",
+          "aliases": ["air filter", "air box", "filter is dirty", "can't breathe"],
+          "finding": "Air filter is packed solid with infield dirt."
+        },
+        {
+          "id": "fix-air",
+          "core": true,
+          "fix": true,
+          "system": "cooling",
+          "label": "Clean or replace the air filter",
+          "aliases": ["replace the air filter", "new air filter", "clean the air filter", "blow out the filter"],
+          "finding": "Filter cleaned. It pulls clean and has power again."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-engine",
+          "label": "Don't throw an engine at a dirty filter.",
+          "aliases": ["replace the engine", "new carburetor"]
+        }
+      ]
+    },
+    {
+      "id": "sg-belt",
+      "title": "Fine yesterday, dead this morning",
+      "hint": "12V died overnight. Look at the starter generator belt before you buy a battery.",
+      "cart": {
+        "example_id": "4P-CC",
+        "category": "4P",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 2004,
+        "fuel": "Gasoline",
+        "engine": "Gas with starter generator",
+        "top": "Flat top",
+        "color": "White",
+        "notes": "Ran all day yesterday. Parked in the row overnight."
+      },
+      "setting": "Charlotte shop, morning.",
+      "ticket": "Ran all day. This morning it clicks and won't crank. They want a new battery.",
+      "cause": "Starter generator belt came off. Battery went dead overnight because nothing was charging. Belt back on, then charge the 12V.",
+      "still": "It still won't crank.",
+      "checks": [
+        {
+          "id": "12v",
+          "core": true,
+          "system": "electrical",
+          "label": "Check the 12V battery",
+          "aliases": ["12 volt", "12v", "battery", "voltage"],
+          "finding": "Battery is dead. That's why it won't crank. Now ask why it died overnight.",
+          "after": "That's only part of the issue."
+        },
+        {
+          "id": "sg-belt",
+          "core": true,
+          "system": "belt",
+          "label": "Check the starter generator belt",
+          "aliases": ["starter generator", "sg belt", "alt belt", "charging belt", "belt off"],
+          "finding": "Starter generator belt is off the pulley. That's why it never charged."
+        },
+        {
+          "id": "fix-sg",
+          "core": true,
+          "fix": true,
+          "system": "belt",
+          "label": "Put the belt back on and charge the battery",
+          "aliases": ["belt back on", "replace the belt", "charge the battery", "new sg belt"],
+          "finding": "Belt on, battery charged. It cranks."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "battery-only",
+          "label": "A new battery will die again if the belt is still off.",
+          "aliases": ["just replace the battery", "new battery only"]
+        }
+      ]
+    },
+    {
+      "id": "fuel-line-pinch",
+      "title": "Starts, then starves after unload",
+      "hint": "Filter can be fine. Follow the fuel line. Trailer straps pinch them.",
+      "cart": {
+        "example_id": "4153",
+        "category": "4P",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 2002,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Just came off a Sun Valley."
+      },
+      "setting": "Richmond. Ten minutes after offload.",
+      "ticket": "Started on the trailer ramp. Thirty feet later it dies. Restarts, dies again. Fuel filter looks new.",
+      "cause": "Fuel line kinked under a strap from the haul. Straighten or replace the line. Gas is fine. Filter is fine.",
+      "still": "It still dies after it rolls a little.",
+      "checks": [
+        {
+          "id": "line",
+          "core": true,
+          "system": "fuel",
+          "label": "Follow the fuel line",
+          "aliases": ["fuel line", "pinched", "kink", "strap", "hose"],
+          "finding": "Line is kinked where the strap sat. Filter is clean."
+        },
+        {
+          "id": "fix-line",
+          "core": true,
+          "fix": true,
+          "system": "fuel",
+          "label": "Straighten or replace the line",
+          "aliases": ["straighten the line", "replace the line", "new fuel line", "unkink"],
+          "finding": "Line free. It runs across the lot without dying."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-filter",
+          "label": "The filter is already new.",
+          "aliases": ["replace the filter", "new filter"]
+        }
+      ]
+    },
+    {
+      "id": "rear-end-howl",
+      "title": "Howls on the suite hill",
+      "hint": "That's not the engine. Check rear end oil.",
+      "cart": {
+        "example_id": "6P-EZ",
+        "category": "6P",
+        "manufacturer": "EZ-GO",
+        "model": "6-passenger stretch",
+        "year": 2018,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "Flat top",
+        "color": "White",
+        "notes": "Heavy 6-pass. Suite runs all weekend."
+      },
+      "setting": "Infield. Hospitality hill.",
+      "ticket": "Engine sounds fine. Halfway up the hill the rear end howls. They think it's a belt.",
+      "cause": "Rear end is low on oil. Fill it. Don't keep pulling the hill dry.",
+      "still": "The rear end still howls under load.",
+      "checks": [
+        {
+          "id": "rear-oil",
+          "core": true,
+          "system": "oil",
+          "label": "Check rear end oil",
+          "aliases": ["rear end", "diff", "differential", "rear oil", "gear oil"],
+          "finding": "Rear end is almost dry. That's the howl."
+        },
+        {
+          "id": "fix-rear",
+          "core": true,
+          "fix": true,
+          "system": "oil",
+          "label": "Fill the rear end",
+          "aliases": ["fill the rear", "add gear oil", "rear end oil", "fill the diff"],
+          "finding": "Rear end filled. The howl is gone on the next pull."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "belt-it",
+          "label": "A howl from the axle is not a belt.",
+          "aliases": ["replace the belt", "new belt"]
+        }
+      ]
+    },
+    {
+      "id": "park-brake-on",
+      "title": "It crawls and smells hot",
+      "hint": "Engine is fine. Look at the park brake before you pull the belt.",
+      "cart": {
+        "example_id": "4PF-EZ",
+        "category": "4PF",
+        "manufacturer": "EZ-GO",
+        "model": "4-passenger flip seat",
+        "year": 2019,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "Folding top",
+        "color": "White",
+        "notes": "Customer just brought it back to the compound."
+      },
+      "setting": "Richmond compound gate.",
+      "ticket": "Barely moves. Engine revs. They smell something hot. They want a belt.",
+      "cause": "Park brake is still on. Release it. Rear brakes are hot.",
+      "still": "It still crawls and smells hot.",
+      "checks": [
+        {
+          "id": "park",
+          "core": true,
+          "system": "brakes",
+          "label": "Check the park brake",
+          "aliases": ["park brake", "parking brake", "hand brake", "brake is on", "brake dragging"],
+          "finding": "Park brake is still set. Rears are too hot to hold."
+        },
+        {
+          "id": "fix-park",
+          "core": true,
+          "fix": true,
+          "system": "brakes",
+          "label": "Release the park brake and let it cool",
+          "aliases": ["release", "take the brake off", "park brake off", "let it cool"],
+          "finding": "Brake off. After it cools it rolls normal."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "belt",
+          "label": "Don't throw a belt at a parked brake.",
+          "aliases": ["replace the belt", "new belt"]
+        }
+      ]
+    },
+    {
+      "id": "plug-wire-off",
+      "title": "Cranks, no fire, after the trailer",
+      "hint": "It ran when it went on the trailer. Check the plug wire before you buy a plug.",
+      "cart": {
+        "example_id": "2003",
+        "category": "UT",
+        "manufacturer": "Club Car",
+        "model": "Carryall 1",
+        "year": 1998,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Just off an enclosed load."
+      },
+      "setting": "Morning after unload.",
+      "ticket": "Ran when they loaded it. Now it cranks and never fires. No gas smell.",
+      "cause": "Spark plug wire pulled off in transit. Push it back on.",
+      "still": "It still cranks and never fires.",
+      "checks": [
+        {
+          "id": "wire",
+          "core": true,
+          "system": "spark",
+          "label": "Check the plug wire",
+          "aliases": ["plug wire", "spark plug wire", "wire off", "boot", "coil wire"],
+          "finding": "Plug wire is sitting next to the plug, not on it."
+        },
+        {
+          "id": "fix-wire",
+          "core": true,
+          "fix": true,
+          "system": "spark",
+          "label": "Put the wire back on",
+          "aliases": ["wire back on", "push the boot", "reconnect the wire", "plug the wire"],
+          "finding": "Wire seated. It fires first try."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-plug",
+          "label": "The plug is fine. The wire is off.",
+          "aliases": ["new plug", "replace the plug"]
+        }
+      ]
+    },
+    {
+      "id": "exhaust-leak",
+      "title": "Loud and it smells like exhaust",
+      "hint": "That's not a bottom-end knock. Look at the exhaust flange.",
+      "cart": {
+        "example_id": "4294",
+        "category": "4PF",
+        "manufacturer": "EZ-GO",
+        "model": "RXV",
+        "year": 2019,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "Flat top",
+        "color": "Red",
+        "notes": "Same family as the Darlington oil-leak cart."
+      },
+      "setting": "Compound. They parked it because it's loud.",
+      "ticket": "Runs fine. Sounds like a gun. Exhaust smell in the seat. They think the motor is coming apart.",
+      "cause": "Exhaust leak at the flange. Gasket or loose nuts. Not an internal knock.",
+      "still": "It's still loud and it still smells like exhaust.",
+      "checks": [
+        {
+          "id": "exhaust",
+          "core": true,
+          "system": "exhaust",
+          "label": "Check the exhaust",
+          "aliases": ["exhaust", "flange", "manifold", "muffler", "header"],
+          "finding": "Leak at the exhaust flange. Nuts are loose. Motor is not knocking."
+        },
+        {
+          "id": "fix-ex",
+          "core": true,
+          "fix": true,
+          "system": "exhaust",
+          "label": "Tighten or replace the exhaust gasket",
+          "aliases": ["tighten the flange", "exhaust gasket", "new gasket", "tighten the nuts"],
+          "finding": "Flange sealed. It's quiet again."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "engine",
+          "label": "Don't tear the motor down for an exhaust leak.",
+          "aliases": ["replace the engine", "internal knock", "rebuild"]
+        }
+      ]
+    },
+    {
+      "id": "loose-12v",
+      "title": "Works, then it won't crank, then it works",
+      "hint": "Wiggle the 12V cables. Vibration after a weekend will walk a nut off.",
+      "cart": {
+        "example_id": "4048",
+        "category": "4P",
+        "manufacturer": "Club Car",
+        "model": "DS",
+        "year": 1998,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Red",
+        "notes": "Been on the lot all week."
+      },
+      "setting": "Live event. Radio call from the suite road.",
+      "ticket": "It was fine. Then it wouldn't crank. They hit a bump and it started. Now it's dead again.",
+      "cause": "Loose 12V cable. Tighten and clean it. Not an ISG, not a new battery.",
+      "still": "Sometimes it cranks, sometimes it doesn't.",
+      "checks": [
+        {
+          "id": "wiggle",
+          "core": true,
+          "system": "electrical",
+          "label": "Wiggle the battery cables",
+          "aliases": ["wiggle", "cables", "loose nut", "terminal", "battery cable"],
+          "finding": "Positive cable nut is finger-loose. Green on the ring."
+        },
+        {
+          "id": "fix-cable",
+          "core": true,
+          "fix": true,
+          "system": "electrical",
+          "label": "Clean and tighten the cable",
+          "aliases": ["tighten", "clean the terminal", "replace the cable", "wire brush"],
+          "finding": "Cable tight and clean. It cranks every time."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "new-battery",
+          "label": "Don't throw a battery at a loose nut.",
+          "aliases": ["replace the battery", "new battery"]
+        }
+      ]
+    },
+    {
+      "id": "valor-injector",
+      "title": "Valor is lean and lazy",
+      "hint": "EX1 injector screen packs up with dirt. Not stale gas. These tanks turn over every event.",
+      "cart": {
+        "example_id": "NP-4PF",
+        "category": "4PF",
+        "manufacturer": "EZ-GO",
+        "model": "Valor EX1",
+        "year": 2023,
+        "fuel": "Gasoline",
+        "engine": "EX1 EFI",
+        "top": "Factory top",
+        "color": "White",
+        "notes": "NP cart. Dusty TV compound."
+      },
+      "setting": "Iowa. After two days of infield dust.",
+      "ticket": "Starts. Runs lean and lazy. No real power. They already cleaned the CVT screen.",
+      "cause": "Dirty injector / inlet screen. Clean or replace the injector. Fuel in the tank is fine.",
+      "still": "It still starts and has no power.",
+      "checks": [
+        {
+          "id": "injector",
+          "core": true,
+          "system": "fuel",
+          "label": "Check the injector",
+          "aliases": ["injector", "injector screen", "efi", "inlet screen"],
+          "finding": "Injector inlet screen is packed with dirt. Tank fuel is fine."
+        },
+        {
+          "id": "fix-inj",
+          "core": true,
+          "fix": true,
+          "system": "fuel",
+          "label": "Clean or replace the injector",
+          "aliases": ["clean the injector", "replace the injector", "new injector"],
+          "finding": "Injector cleaned. It pulls like it should."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "stale",
+          "label": "Rental gas does not sit long enough to go bad.",
+          "aliases": ["stale gas", "drain the tank", "old gas"]
+        }
+      ]
+    },
+    {
+      "id": "no-reverse-fnr",
+      "title": "No reverse in the trailer alley",
+      "hint": "Forward is fine. Look at the FNR / reverse cable, not the motor.",
+      "cart": {
+        "example_id": "UT-800",
+        "category": "UT",
+        "manufacturer": "EZ-GO",
+        "model": "Utility 800",
+        "year": 2014,
+        "fuel": "Gasoline",
+        "engine": "Gas",
+        "top": "No top",
+        "color": "Tan",
+        "notes": "Work cart. They use reverse all day packing a Sun Valley."
+      },
+      "setting": "Charlotte shop alley.",
+      "ticket": "Forward is fine. No reverse. They need it to get off the bottom deck.",
+      "cause": "Reverse side of the FNR / shifter cable. Adjust or replace the FNR. Engine is fine.",
+      "still": "Forward works. Still no reverse.",
+      "checks": [
+        {
+          "id": "fnr",
+          "core": true,
+          "system": "electrical",
+          "label": "Check the FNR / reverse cable",
+          "aliases": ["fnr", "f/r", "reverse cable", "shifter", "direction", "reverse switch"],
+          "finding": "FNR is not making reverse. Forward side is fine. Cable is sloppy."
+        },
+        {
+          "id": "fix-fnr",
+          "core": true,
+          "fix": true,
+          "system": "electrical",
+          "label": "Adjust or replace the FNR",
+          "aliases": ["replace the fnr", "adjust the cable", "new fnr", "tighten the shifter"],
+          "finding": "FNR adjusted. Reverse works under the trailer."
+        }
+      ],
+      "forbidden": [
+        {
+          "id": "engine",
+          "label": "The motor pulls fine in forward.",
+          "aliases": ["replace the engine", "new clutch"]
+        }
+      ]
     }
   ]
 }

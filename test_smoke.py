@@ -7,7 +7,7 @@ import server
 
 def main() -> None:
     bank = json.loads((server.ROOT / "cases.json").read_text(encoding="utf-8"))
-    assert len(bank["cases"]) == 10
+    assert len(bank["cases"]) == 20
     for item in bank["cases"]:
         assert item["cart"]["fuel"] == "Gasoline"
         assert any(check.get("fix") for check in item["checks"])
@@ -16,7 +16,7 @@ def main() -> None:
     with TestClient(server.app) as client:
         health = client.get("/api/health")
         assert health.status_code == 200, health.text
-        assert health.json()["cases"] == 10
+        assert health.json()["cases"] == 20
 
         ticket = client.get("/api/cases/no-start-after-unload")
         assert ticket.status_code == 200, ticket.text
