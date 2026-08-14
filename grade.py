@@ -3,6 +3,81 @@ from __future__ import annotations
 import re
 from typing import Any
 
+REPLACE_WORDS = (
+    "replace",
+    "replaced",
+    "change",
+    "changed",
+    "swap",
+    "swapped",
+    "install",
+    "installed",
+    "rebuild",
+    "rebuilt",
+    "new",
+)
+CHECK_WORDS = (
+    "check",
+    "checked",
+    "test",
+    "tested",
+    "inspect",
+    "inspected",
+    "look",
+    "looked",
+    "pull",
+    "pulled",
+    "meter",
+    "read",
+    "verify",
+)
+KNOWN_PARTS = (
+    "fuel pump",
+    "pump",
+    "fuel pickup",
+    "pick up",
+    "pickup",
+    "carb",
+    "carburetor",
+    "injector",
+    "spark plug",
+    "plug",
+    "coil",
+    "ignition",
+    "battery",
+    "cables",
+    "starter",
+    "isg",
+    "solenoid",
+    "controller",
+    "belt",
+    "clutch",
+    "clutches",
+    "oil",
+    "oil filter",
+    "fuel filter",
+    "filter",
+    "air filter",
+    "kill switch",
+    "fuel cap",
+    "vent",
+    "tie rod",
+    "steering",
+    "engine",
+    "motor",
+    "muffler",
+    "exhaust",
+    "cvt",
+    "screen",
+    "fins",
+    "gas",
+    "fuel",
+    "tank",
+)
+
+CHECKS_GOOD = "Checks good."
+STILL_BROKEN = "You replaced it. Same problem. Cart is still doing the same thing."
+
 
 def normalize(text: str) -> str:
     text = (text or "").lower().replace("/", " ")
@@ -26,6 +101,25 @@ def any_alias(blob: str, aliases: list[str]) -> bool:
     return any(contains_alias(blob, alias) for alias in aliases)
 
 
+def is_replace(blob: str) -> bool:
+    tokens = set(blob.split())
+    return bool(tokens & set(REPLACE_WORDS))
+
+
+def is_doing_work(blob: str) -> bool:
+    tokens = set(blob.split())
+    return is_replace(blob) or bool(
+        tokens & {"fill", "filled", "add", "added", "clean", "cleaned", "tighten", "tightened"}
+    )
+
+
+def is_check(blob: str) -> bool:
+    tokens = set(blob.split())
+    if any(word in tokens for word in CHECK_WORDS):
+        return True
+    return any(contains_alias(blob, part) for part in KNOWN_PARTS)
+
+
 def core_checks(case: dict[str, Any]) -> list[dict[str, Any]]:
     return [item for item in (case.get("checks") or []) if item.get("core")]
 
@@ -37,16 +131,8 @@ def apply_step(
 ) -> dict[str, Any]:
     already = list(already or [])
     blob = normalize(step)
-
-    for rule in case.get("forbidden") or []:
-        if any_alias(blob, rule.get("aliases") or []):
-            return {
-                "kind": "foul",
-                "id": rule["id"],
-                "reply": rule.get("label") or "That's the expensive wrong call.",
-                "already": already,
-                "solved": False,
-            }
+    replacing = is_replace(blob)
+    doing_work = is_doing_work(blob)
 
     matches = [
         check
@@ -54,9 +140,21 @@ def apply_step(
         if check["id"] not in already and any_alias(blob, check.get("aliases") or [])
     ]
     if matches:
-        check = next((item for item in matches if item.get("fix")), matches[0])
+        if doing_work:
+            check = next((item for item in matches if item.get("fix")), None)
+            if check is None and replacing:
+                return {
+                    "kind": "persist",
+                    "id": None,
+                    "reply": STILL_BROKEN,
+                    "already": already,
+                    "solved": False,
+                }
+            if check is None:
+                check = matches[0]
+        else:
+            check = next((item for item in matches if not item.get("fix")), matches[0])
         already.append(check["id"])
-        solved = _solved(case, already)
         return {
             "kind": "hit",
             "id": check["id"],
@@ -65,13 +163,31 @@ def apply_step(
             "core": bool(check.get("core")),
             "fix": bool(check.get("fix")),
             "already": already,
-            "solved": solved,
+            "solved": _solved(case, already),
+        }
+
+    if replacing:
+        return {
+            "kind": "persist",
+            "id": None,
+            "reply": STILL_BROKEN,
+            "already": already,
+            "solved": False,
+        }
+
+    if is_check(blob):
+        return {
+            "kind": "ok",
+            "id": None,
+            "reply": CHECKS_GOOD,
+            "already": already,
+            "solved": False,
         }
 
     return {
         "kind": "miss",
         "id": None,
-        "reply": "Nothing useful from that. Try a real check — gas, spark, oil, belt, steering.",
+        "reply": "Say what you're checking or what you're replacing.",
         "already": already,
         "solved": False,
     }
@@ -93,7 +209,7 @@ def grade_attempt(case: dict[str, Any], steps: list[str]) -> dict[str, Any]:
         result = apply_step(case, step, already)
         already = result["already"]
         log.append(result)
-        if result["kind"] == "foul":
+        if result["kind"] in ("foul", "persist"):
             fouls += 1
 
     solved = _solved(case, already)
@@ -105,9 +221,9 @@ def grade_attempt(case: dict[str, Any], steps: list[str]) -> dict[str, Any]:
     if result == "pass":
         feedback = "That's it. You found it and you fixed it."
     elif result == "almost":
-        feedback = "You got there, but you also called a bad part. Don't do that on the lot."
+        feedback = "You got there, but you also threw a good part."
     else:
-        feedback = "Not yet. You don't have to name every check — just find what's actually wrong and fix it."
+        feedback = "Not yet. Check until you find the bad one, then replace that."
 
     return {
         "score": score,
@@ -116,7 +232,7 @@ def grade_attempt(case: dict[str, Any], steps: list[str]) -> dict[str, Any]:
         "needed": len(cores),
         "found": len(hit_cores),
         "hits": [item for item in log if item["kind"] == "hit"],
-        "fouls": [item for item in log if item["kind"] == "foul"],
+        "fouls": [item for item in log if item["kind"] in ("foul", "persist")],
         "cause": case.get("cause") or "",
         "feedback": feedback,
     }

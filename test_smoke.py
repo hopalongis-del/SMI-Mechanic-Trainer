@@ -43,12 +43,28 @@ def main() -> None:
         assert fix.status_code == 200, fix.text
         assert fix.json()["solved"] is True
 
+        pump = client.post(
+            "/api/act",
+            json={"case_id": "starts-then-dies", "step": "fuel pump", "already": []},
+        )
+        assert pump.status_code == 200, pump.text
+        assert pump.json()["kind"] == "ok"
+        assert pump.json()["reply"] == "Checks good."
+
+        swap = client.post(
+            "/api/act",
+            json={"case_id": "starts-then-dies", "step": "change fuel pump", "already": []},
+        )
+        assert swap.status_code == 200, swap.text
+        assert swap.json()["kind"] == "persist"
+        assert "same thing" in swap.json()["reply"].lower() or "same problem" in swap.json()["reply"].lower()
+
         foul = client.post(
             "/api/act",
             json={"case_id": "no-start-after-unload", "step": "replace the engine", "already": []},
         )
         assert foul.status_code == 200, foul.text
-        assert foul.json()["kind"] == "foul"
+        assert foul.json()["kind"] == "persist"
         assert foul.json()["solved"] is False
 
         page = client.get("/")

@@ -134,7 +134,8 @@ button:disabled { opacity: 0.45; cursor: not-allowed; }
 
 .line.you p { border-color: rgba(196, 163, 90, 0.35); }
 .line.hit p { border-color: rgba(125, 186, 106, 0.45); }
-.line.foul p { border-color: rgba(212, 91, 74, 0.55); }
+.line.ok p { border-color: rgba(163, 173, 144, 0.45); }
+.line.persist p, .line.foul p { border-color: rgba(212, 91, 74, 0.55); }
 .line.pass p { border-color: var(--go); color: var(--go); }
 
 .score {
